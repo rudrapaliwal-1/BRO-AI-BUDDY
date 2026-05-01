@@ -2,7 +2,8 @@
 
 > A smart, single-file AI chat app powered by Google Gemini. No server. No backend. No subscription. Just drop the HTML file anywhere and go.
 
-![Bro Banner](./assets/banner.png)
+<img width="1280" height="640" alt="image" src="https://github.com/user-attachments/assets/4790758d-fa13-47dc-a667-2175d2b4195f" />
+
 
 ---
 
