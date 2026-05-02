@@ -17,7 +17,7 @@ Built with love by one person. No VC funding. No paywalls. No bullshit.
 
 ## 🚀 Live Demo
 
-> Just open `index.html` in any browser. That's it.
+https://amazing-dolphin-157033.netlify.app/
 
 Or host it instantly:
 - **GitHub Pages** — push this repo and enable Pages → done
