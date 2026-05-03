@@ -11,7 +11,7 @@
 
 **Bro** is a 100% free, single-file AI chat application that runs entirely in your browser. It uses Google's **Gemini API** (free tier — no credit card required) and stores everything locally — your chat history, memory, and tasks never leave your device.
 
-Built with love by one person. No VC funding. No paywalls. No bullshit.
+Built with love by one person. No VC funding. No paywalls
 
 ---
 
