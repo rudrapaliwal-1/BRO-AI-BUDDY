@@ -163,7 +163,7 @@ MIT — do whatever you want with it. If you build something cool, star the repo
 ---
 
 ## 🙏 Credits
-
+Thoughts of me(RUDRA).
 Built with [Google Gemini API](https://ai.google.dev/) — free tier, no credit card required.
 
 ---
