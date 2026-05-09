@@ -19,15 +19,7 @@ Everything is stored locally — your chat history, memory, and tasks never leav
 
 ## 🚀 Live Demo
 
-Open `index.html` in Chrome. That's it.
-
-**Or host it for free:**
-
-| Platform | How |
-|---|---|
-| GitHub Pages | Push repo → Settings → Pages → Source: GitHub Actions |
-| Netlify Drop | Drag folder to [netlify.com/drop](https://app.netlify.com/drop) |
-| Vercel | `vercel --prod` in this folder |
+https://bro-ai-buddy.netlify.app/
 
 ---
 
