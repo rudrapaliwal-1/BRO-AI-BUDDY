@@ -2,7 +2,7 @@
 
 > A smart, single-file AI chat app. Works **online** with Google Gemini and **offline** with a real AI model running directly in your browser. No server. No backend. No subscription. Ever.
 
-![Bro Banner](assets/banner.png)
+![Bro Banner](./assets/banner.svg)
 
 ---
 
