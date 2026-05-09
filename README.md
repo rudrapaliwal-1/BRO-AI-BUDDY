@@ -145,19 +145,9 @@ These facts inject silently into every future conversation. View, edit or delete
 
 ---
 
-## 🚢 Deploy to GitHub Pages (3 commands)
 
-```bash
-git clone https://github.com/YOUR_USERNAME/bro.git
-cd bro
-git add . && git commit -m "🤖 Deploy Bro" && git push origin main
-```
 
-Then: **Repo Settings → Pages → Source: GitHub Actions**
 
-Your site goes live at `https://YOUR_USERNAME.github.io/bro` ⚡
-
----
 
 ## 📜 License
 
