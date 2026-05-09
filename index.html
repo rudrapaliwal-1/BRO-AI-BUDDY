@@ -6,15 +6,9 @@
 <meta name="theme-color" content="#f4f5f7"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<title>Bro 🤖 — Free AI Buddy</title>
+<title>Bro 🤖 — Free AI Buddy (Offline Ready)</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-
-/* ═══════════════════════════════════════════
-   BRO × SCA DESIGN SYSTEM
-   Palette: White bg · Deep Navy · Lime Green
-   Font: Barlow Condensed (display) · Barlow (body)
-═══════════════════════════════════════════ */
 :root {
   --bg:        #f4f5f7;
   --bg2:       #eaecf0;
@@ -34,563 +28,369 @@
   --red:       #e53935;
   --red-dim:   rgba(229,57,53,0.10);
   --green:     #43a047;
+  --orange:    #f57c00;
+  --orange-dim:rgba(245,124,0,0.10);
+  --purple:    #7c3aed;
+  --purple-dim:rgba(124,58,237,0.10);
 
-  --display:  'Barlow Condensed', sans-serif;
-  --body:     'Barlow', sans-serif;
-  --mono:     'DM Mono', monospace;
-
-  --r:        14px;
-  --r-sm:     9px;
-  --r-lg:     22px;
-  --r-pill:   999px;
+  --display: 'Barlow Condensed', sans-serif;
+  --body:    'Barlow', sans-serif;
+  --mono:    'DM Mono', monospace;
+  --r: 14px; --r-sm: 9px; --r-lg: 22px; --r-pill: 999px;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;height:100dvh;font-family:var(--body);background:var(--bg);color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased;}
 
-html, body {
-  height:100%; height:100dvh;
-  font-family: var(--body);
-  background: var(--bg);
-  color: var(--text);
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
+#app{display:flex;flex-direction:column;height:100dvh;max-width:960px;margin:0 auto;position:relative;}
+
+/* ── FLOATING NAVBAR ── */
+header{
+  margin:12px 16px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 10px 8px 16px;
+  background:var(--white);border-radius:var(--r-pill);
+  box-shadow:0 2px 20px rgba(13,33,55,0.12),0 1px 4px rgba(13,33,55,0.08);
+  flex-shrink:0;gap:10px;border:1px solid var(--border);
 }
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-mark{width:36px;height:36px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(13,33,55,0.25);flex-shrink:0;}
+.logo-text{font-family:var(--display);font-size:22px;font-weight:900;color:var(--navy);letter-spacing:-0.5px;line-height:1;}
+.logo-text span{color:var(--lime);}
+.logo-tagline{font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-top:1px;}
 
-#app {
-  display:flex; flex-direction:column;
-  height:100dvh;
-  max-width:960px; margin:0 auto;
-  position:relative;
+/* ── AI MODE BADGE ── */
+#mode-badge{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 13px;border-radius:var(--r-pill);
+  font-family:var(--display);font-size:12px;font-weight:800;
+  letter-spacing:0.5px;text-transform:uppercase;
+  transition:all 0.4s ease;white-space:nowrap;flex-shrink:0;
+  border:1.5px solid;cursor:default;
 }
+#mode-badge.online{background:var(--lime-dim);color:var(--lime-dark);border-color:var(--lime);}
+#mode-badge.offline{background:var(--orange-dim);color:var(--orange);border-color:var(--orange);}
+#mode-badge.loading{background:var(--purple-dim);color:var(--purple);border-color:var(--purple);animation:badgePulse 1.2s ease-in-out infinite;}
+#mode-badge.ready{background:var(--lime-dim);color:var(--lime-dark);border-color:var(--lime);}
+@keyframes badgePulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.mode-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:background 0.4s;}
+.online .mode-dot{background:var(--lime-dark);}
+.offline .mode-dot{background:var(--orange);animation:dotPulse 1s ease-in-out infinite;}
+.loading .mode-dot{background:var(--purple);}
+.ready .mode-dot{background:var(--lime-dark);}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 
-/* ══════════════════════════════
-   FLOATING PILL NAVBAR  (SCA style)
-══════════════════════════════ */
-header {
-  margin: 12px 16px 0;
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 8px 10px 8px 16px;
-  background: var(--white);
-  border-radius: var(--r-pill);
-  box-shadow: 0 2px 20px rgba(13,33,55,0.12), 0 1px 4px rgba(13,33,55,0.08);
-  flex-shrink:0; gap:10px;
-  border: 1px solid var(--border);
+nav{display:flex;gap:2px;background:var(--bg);padding:3px;border-radius:var(--r-pill);border:1px solid var(--border);}
+.nav-btn{display:flex;align-items:center;gap:5px;padding:6px 14px;border:none;border-radius:var(--r-pill);background:transparent;color:var(--text2);font-family:var(--display);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;white-space:nowrap;letter-spacing:0.3px;text-transform:uppercase;}
+.nav-btn:hover{color:var(--navy);background:rgba(255,255,255,0.7);}
+.nav-btn.active{background:var(--lime);color:var(--navy);box-shadow:0 2px 8px rgba(141,198,63,0.4);}
+
+/* ── PANELS ── */
+.panel{display:none;flex:1;flex-direction:column;overflow:hidden;}
+.panel.active{display:flex;}
+
+/* ── MODEL LOADER OVERLAY ── */
+#loader-overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(13,33,55,0.92);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  backdrop-filter:blur(8px);
+  animation:fadeIn 0.3s ease;
 }
-
-.logo { display:flex; align-items:center; gap:10px; flex-shrink:0; }
-
-.logo-mark {
-  width:36px; height:36px;
-  background: var(--navy);
-  border-radius: 10px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:18px;
-  box-shadow: 0 2px 8px rgba(13,33,55,0.25);
-  flex-shrink:0;
+#loader-overlay.show{display:flex;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.loader-box{
+  background:var(--white);border-radius:var(--r-lg);
+  padding:36px 40px;max-width:460px;width:90%;
+  display:flex;flex-direction:column;gap:18px;align-items:center;
+  box-shadow:0 24px 64px rgba(0,0,0,0.4);
+  text-align:center;
 }
+.loader-icon{font-size:44px;animation:spin 2s linear infinite;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.loader-title{font-family:var(--display);font-size:26px;font-weight:900;color:var(--navy);text-transform:uppercase;letter-spacing:-0.5px;}
+.loader-title em{color:var(--lime);font-style:normal;}
+.loader-sub{font-size:13px;color:var(--text2);line-height:1.7;}
+.loader-bar-wrap{width:100%;background:var(--bg2);border-radius:var(--r-pill);height:8px;overflow:hidden;}
+.loader-bar{height:100%;background:linear-gradient(90deg,var(--lime-dark),var(--lime2));border-radius:var(--r-pill);width:0%;transition:width 0.4s ease;}
+.loader-pct{font-family:var(--mono);font-size:13px;color:var(--text3);}
+.loader-status{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:0.3px;min-height:16px;}
+.loader-skip{font-family:var(--display);font-size:12px;font-weight:700;color:var(--text3);text-decoration:underline;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;border:none;background:none;margin-top:4px;}
+.loader-skip:hover{color:var(--navy);}
 
-.logo-text {
-  font-family: var(--display);
-  font-size:22px; font-weight:900;
-  color: var(--navy);
-  letter-spacing:-0.5px;
-  line-height:1;
-}
-.logo-text span { color: var(--lime); }
-.logo-tagline {
-  font-size:10px; font-family:var(--mono);
-  color:var(--text3); letter-spacing:0.8px;
-  text-transform:uppercase; margin-top:1px;
-}
+/* ── SETUP BANNER ── */
+#setup-banner{margin:10px 16px 0;padding:12px 16px;background:var(--navy);border-radius:var(--r-sm);font-size:13px;color:#a8c4e0;display:none;flex-shrink:0;line-height:1.7;}
+#setup-banner.show{display:block;}
+#setup-banner a{color:var(--lime);font-weight:700;text-decoration:none;}
+#setup-banner strong{color:var(--lime);font-weight:700;}
 
-.logo-badge {
-  font-family: var(--display);
-  font-size:11px; font-weight:700;
-  background: var(--lime);
-  color: var(--navy);
-  padding: 4px 12px; border-radius: var(--r-pill);
-  letter-spacing:0.5px; text-transform:uppercase;
-  box-shadow: 0 2px 6px rgba(141,198,63,0.35);
-}
-
-/* NAV PILLS */
-nav {
-  display:flex; gap:2px;
-  background: var(--bg);
-  padding:3px; border-radius:var(--r-pill);
-  border: 1px solid var(--border);
-}
-
-.nav-btn {
-  display:flex; align-items:center; gap:5px;
-  padding:6px 14px; border:none; border-radius:var(--r-pill);
-  background:transparent; color:var(--text2);
-  font-family:var(--display); font-size:13px; font-weight:700;
-  cursor:pointer; transition:all 0.18s; white-space:nowrap;
-  letter-spacing:0.3px; text-transform:uppercase;
-}
-.nav-btn:hover { color:var(--navy); background:rgba(255,255,255,0.7); }
-.nav-btn.active {
-  background: var(--lime);
-  color: var(--navy);
-  box-shadow: 0 2px 8px rgba(141,198,63,0.4);
-}
-
-/* ══════════════════════════════
-   PANELS
-══════════════════════════════ */
-.panel { display:none; flex:1; flex-direction:column; overflow:hidden; }
-.panel.active { display:flex; }
-
-/* ══════════════════════════════
-   SETUP BANNER
-══════════════════════════════ */
-#setup-banner {
-  margin:10px 16px 0;
-  padding:12px 16px;
-  background: var(--navy);
-  border-radius: var(--r-sm);
-  font-size:13px; color:#a8c4e0;
-  display:none; flex-shrink:0; line-height:1.7;
+/* ── OFFLINE INFO BANNER ── */
+#offline-banner{
+  margin:8px 16px 0;padding:10px 15px;
+  background:var(--orange-dim);border:1.5px solid var(--orange);
+  border-radius:var(--r-sm);font-size:12.5px;color:var(--orange);
+  display:none;flex-shrink:0;line-height:1.6;
   font-family:var(--body);
 }
-#setup-banner.show { display:block; }
-#setup-banner a { color:var(--lime); font-weight:700; text-decoration:none; }
-#setup-banner strong { color:var(--lime); font-weight:700; }
+#offline-banner.show{display:block;}
 
-/* ══════════════════════════════
-   CHAT MESSAGES
-══════════════════════════════ */
-#chat-messages {
-  flex:1; overflow-y:auto;
-  padding:18px 16px;
-  display:flex; flex-direction:column; gap:14px;
-  scroll-behavior:smooth;
-}
-#chat-messages::-webkit-scrollbar { width:3px; }
-#chat-messages::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+/* ── CHAT MESSAGES ── */
+#chat-messages{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;}
+#chat-messages::-webkit-scrollbar{width:3px;}
+#chat-messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 
-.msg {
-  display:flex; gap:10px; align-items:flex-end;
-  max-width:86%;
-  animation: msgIn .25s cubic-bezier(.34,1.5,.64,1) both;
-}
-@keyframes msgIn {
-  from { opacity:0; transform:translateY(10px) scale(.97); }
-  to   { opacity:1; transform:translateY(0) scale(1); }
-}
-.msg.user { align-self:flex-end; flex-direction:row-reverse; }
-.msg.bro  { align-self:flex-start; }
+.msg{display:flex;gap:10px;align-items:flex-end;max-width:86%;animation:msgIn .25s cubic-bezier(.34,1.5,.64,1) both;}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.msg.bro{align-self:flex-start;}
 
-/* Avatars */
-.av {
-  width:32px; height:32px; border-radius:50%; flex-shrink:0;
-  display:flex; align-items:center; justify-content:center;
-  font-size:14px; border:2px solid var(--border);
-}
-.bro  .av { background:var(--navy); border-color:var(--navy); }
-.user .av {
-  background:var(--lime); border-color:var(--lime);
-  font-size:9px; font-weight:900; color:var(--navy);
-  font-family:var(--display); letter-spacing:0.5px;
-}
+.av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid var(--border);}
+.bro  .av{background:var(--navy);border-color:var(--navy);}
+.user .av{background:var(--lime);border-color:var(--lime);font-size:9px;font-weight:900;color:var(--navy);font-family:var(--display);letter-spacing:0.5px;}
 
-/* Bubbles */
-.bubble {
-  padding:12px 16px; border-radius:16px;
-  font-size:14px; line-height:1.7;
-  word-break:break-word; white-space:pre-wrap;
-}
-.bro .bubble {
-  background: var(--white);
-  border:1px solid var(--border);
-  border-bottom-left-radius:4px;
-  box-shadow: 0 2px 12px rgba(13,33,55,0.08);
-  color: var(--text);
-}
-.user .bubble {
-  background: var(--navy);
-  color: #dce8f5;
-  border-bottom-right-radius:4px;
-  box-shadow: 0 3px 14px rgba(13,33,55,0.2);
-}
+.bubble{padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.7;word-break:break-word;white-space:pre-wrap;position:relative;}
+.bro .bubble{background:var(--white);border:1px solid var(--border);border-bottom-left-radius:4px;box-shadow:0 2px 12px rgba(13,33,55,0.08);}
+.user .bubble{background:var(--navy);color:#dce8f5;border-bottom-right-radius:4px;box-shadow:0 3px 14px rgba(13,33,55,0.2);}
 
-/* Code in bubbles */
-.bubble strong { color:var(--navy); font-weight:700; }
-.user .bubble strong { color:var(--lime2); }
-.bubble em { color:var(--text2); font-style:italic; }
+/* Engine tag on bro bubbles */
+.engine-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:9px;font-family:var(--mono);font-weight:500;
+  padding:2px 7px;border-radius:3px;letter-spacing:0.5px;
+  margin-bottom:6px;
+}
+.engine-tag.gemini{background:rgba(66,133,244,0.1);color:#4285f4;border:1px solid rgba(66,133,244,0.2);}
+.engine-tag.local{background:var(--orange-dim);color:var(--orange);border:1px solid rgba(245,124,0,0.2);}
 
-.lang-tag {
-  display:inline-block;
-  font-family:var(--mono); font-size:9px;
-  background:var(--lime); color:var(--navy);
-  padding:3px 10px; border-radius:4px 4px 0 0;
-  letter-spacing:1px; text-transform:uppercase; font-weight:700;
-  margin-top:10px;
-}
-.bubble pre {
-  background: var(--navy);
-  border-radius:0 4px 4px 4px;
-  padding:12px; overflow-x:auto; margin:0 0 8px;
-  font-family:var(--mono); font-size:12.5px; line-height:1.65;
-  color:#9ecfb0;
-  box-shadow: 0 4px 16px rgba(13,33,55,0.2);
-}
-.bubble code {
-  font-family:var(--mono); font-size:12.5px;
-  background:var(--lime-dim); color:var(--lime-dark);
-  padding:2px 6px; border-radius:4px;
-  border:1px solid rgba(141,198,63,0.25);
-}
-.bubble pre code { background:none; padding:0; color:#9ecfb0; border:none; }
+.bubble strong{color:var(--navy);font-weight:700;}
+.user .bubble strong{color:var(--lime2);}
+.bubble em{color:var(--text2);font-style:italic;}
+.lang-tag{display:inline-block;font-family:var(--mono);font-size:9px;background:var(--lime);color:var(--navy);padding:3px 10px;border-radius:4px 4px 0 0;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-top:10px;}
+.bubble pre{background:var(--navy);border-radius:0 4px 4px 4px;padding:12px;overflow-x:auto;margin:0 0 8px;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:#9ecfb0;box-shadow:0 4px 16px rgba(13,33,55,0.2);}
+.bubble code{font-family:var(--mono);font-size:12.5px;background:var(--lime-dim);color:var(--lime-dark);padding:2px 6px;border-radius:4px;border:1px solid rgba(141,198,63,0.25);}
+.bubble pre code{background:none;padding:0;color:#9ecfb0;border:none;}
 
-/* Typing dots */
-.dots { display:flex; gap:5px; padding:4px 0; align-items:center; }
-.dots span {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--lime); opacity:.4;
-  animation:db 1.3s ease-in-out infinite;
-}
-.dots span:nth-child(2){animation-delay:.18s;}
-.dots span:nth-child(3){animation-delay:.36s;}
-@keyframes db{ 0%,80%,100%{transform:translateY(0);opacity:.4;} 40%{transform:translateY(-6px);opacity:1;} }
+.dots{display:flex;gap:5px;padding:4px 0;align-items:center;}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--lime);opacity:.4;animation:db 1.3s ease-in-out infinite;}
+.dots span:nth-child(2){animation-delay:.18s;}.dots span:nth-child(3){animation-delay:.36s;}
+@keyframes db{0%,80%,100%{transform:translateY(0);opacity:.4;}40%{transform:translateY(-6px);opacity:1;}}
 
-/* Timestamps */
-.msg-time {
-  font-size:9.5px; font-family:var(--mono); color:var(--text3);
-  opacity:0; transition:opacity .2s; align-self:flex-end; margin-bottom:2px; white-space:nowrap;
-}
-.msg:hover .msg-time { opacity:1; }
+.msg-time{font-size:9.5px;font-family:var(--mono);color:var(--text3);opacity:0;transition:opacity .2s;align-self:flex-end;margin-bottom:2px;white-space:nowrap;}
+.msg:hover .msg-time{opacity:1;}
 
-/* ══════════════════════════════
-   INPUT AREA
-══════════════════════════════ */
-.inp-area {
-  padding:10px 16px 14px;
-  background:var(--white);
-  border-top: 1px solid var(--border);
-  flex-shrink:0;
-}
+/* ── INPUT AREA ── */
+.inp-area{padding:10px 16px 14px;background:var(--white);border-top:1px solid var(--border);flex-shrink:0;}
+.inp-row{display:flex;align-items:flex-end;gap:8px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r-lg);padding:8px 10px;transition:border-color .2s,box-shadow .2s;}
+.inp-row:focus-within{border-color:var(--lime);box-shadow:0 0 0 3px var(--lime-dim);}
+#chat-inp{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--body);font-size:14px;line-height:1.5;resize:none;min-height:22px;max-height:115px;overflow-y:auto;padding:2px 0;}
+#chat-inp::placeholder{color:var(--text3);}
 
-.inp-row {
-  display:flex; align-items:flex-end; gap:8px;
-  background: var(--bg);
-  border:1.5px solid var(--border2); border-radius:var(--r-lg);
-  padding:8px 10px;
-  transition:border-color .2s, box-shadow .2s;
-}
-.inp-row:focus-within {
-  border-color: var(--lime);
-  box-shadow: 0 0 0 3px var(--lime-dim);
-}
+.ib{width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--white);color:var(--text2);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;}
+.ib:hover{background:var(--navy-dim);color:var(--navy);border-color:var(--border2);}
+.ib.on{background:var(--red-dim);color:var(--red);border-color:rgba(229,57,53,0.3);animation:recPulse 1.2s ease-in-out infinite;}
+@keyframes recPulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,0.3);}50%{box-shadow:0 0 0 5px rgba(229,57,53,0);}}
 
-#chat-inp {
-  flex:1; background:transparent; border:none; outline:none;
-  color:var(--text); font-family:var(--body); font-size:14px;
-  line-height:1.5; resize:none;
-  min-height:22px; max-height:115px; overflow-y:auto; padding:2px 0;
-}
-#chat-inp::placeholder { color:var(--text3); }
+.send-btn{width:34px;height:34px;border-radius:var(--r-sm);border:none;background:var(--lime);color:var(--navy);font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:all .18s;box-shadow:0 2px 10px rgba(141,198,63,0.4);}
+.send-btn:hover:not(:disabled){background:var(--lime2);transform:scale(1.07);box-shadow:0 4px 16px rgba(141,198,63,0.55);}
+.send-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none;}
+.send-btn:active:not(:disabled){transform:scale(0.94);}
 
-.ib {
-  width:34px; height:34px; border-radius:var(--r-sm); border:none;
-  background:var(--white); color:var(--text2);
-  cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; transition:all .18s;
-  border:1px solid var(--border);
-}
-.ib:hover { background:var(--navy-dim); color:var(--navy); border-color:var(--border2); }
-.ib.on { background:var(--red-dim); color:var(--red); border-color:rgba(229,57,53,0.3); animation:recPulse 1.2s ease-in-out infinite; }
-@keyframes recPulse { 0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,0.3);} 50%{box-shadow:0 0 0 5px rgba(229,57,53,0);} }
+.hints{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.hc{font-size:11.5px;color:var(--text2);background:var(--white);border:1px solid var(--border);border-radius:var(--r-pill);padding:4px 13px;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:var(--body);font-weight:500;}
+.hc:hover{border-color:var(--lime);color:var(--navy);background:var(--lime-dim);transform:translateY(-1px);}
+#voice-st{font-size:11px;color:var(--red);text-align:center;padding:4px 0 0;display:none;font-family:var(--mono);}
+#voice-st.show{display:block;}
 
-.send-btn {
-  width:34px; height:34px; border-radius:var(--r-sm); border:none;
-  background:var(--lime);
-  color:var(--navy); font-size:15px;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; cursor:pointer; transition:all .18s;
-  box-shadow: 0 2px 10px rgba(141,198,63,0.4);
-}
-.send-btn:hover:not(:disabled) {
-  background:var(--lime2); transform:scale(1.07);
-  box-shadow:0 4px 16px rgba(141,198,63,0.55);
-}
-.send-btn:disabled { opacity:.3; cursor:not-allowed; transform:none; box-shadow:none; }
-.send-btn:active:not(:disabled) { transform:scale(0.94); }
+/* ── PANEL BODY ── */
+.pb{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:16px;}
+.pb::-webkit-scrollbar{width:3px;}
+.pb::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 
-/* Hints */
-.hints { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
-.hc {
-  font-size:11.5px; color:var(--text2);
-  background:var(--white); border:1px solid var(--border);
-  border-radius:var(--r-pill); padding:4px 13px;
-  cursor:pointer; transition:all .18s; white-space:nowrap;
-  font-family:var(--body); font-weight:500;
-}
-.hc:hover { border-color:var(--lime); color:var(--navy); background:var(--lime-dim); transform:translateY(-1px); }
+.panel-hdr{display:flex;flex-direction:column;gap:2px;padding-bottom:14px;border-bottom:2px solid var(--navy);}
+.ph{font-family:var(--display);font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:-0.5px;color:var(--navy);line-height:1;}
+.ph em{color:var(--lime);font-style:normal;}
+.ph-sub{font-size:12px;color:var(--text3);font-family:var(--mono);margin-top:3px;}
 
-#voice-st { font-size:11px; color:var(--red); text-align:center; padding:4px 0 0; display:none; font-family:var(--mono); }
-#voice-st.show { display:block; }
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:11px;box-shadow:0 2px 12px rgba(13,33,55,0.07);}
 
-/* ══════════════════════════════
-   SHARED PANEL BODY
-══════════════════════════════ */
-.pb { flex:1; overflow-y:auto; padding:18px 16px; display:flex; flex-direction:column; gap:16px; }
-.pb::-webkit-scrollbar { width:3px; }
-.pb::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+input[type=text],input[type=date],input[type=password],input[type=number],select{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:var(--body);font-size:13.5px;padding:9px 12px;outline:none;width:100%;transition:border-color .2s,box-shadow .2s;}
+input:focus,select:focus{border-color:var(--lime);box-shadow:0 0 0 3px var(--lime-dim);}
+input::placeholder{color:var(--text3);}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233d5570' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:calc(100% - 12px) center;padding-right:32px;}
+select option{background:var(--white);}
+.row{display:flex;gap:8px;align-items:stretch;}
 
-/* Section header — SCA style large condensed */
-.panel-hdr {
-  display:flex; flex-direction:column; gap:2px; padding-bottom:14px;
-  border-bottom: 2px solid var(--navy);
-}
-.ph {
-  font-family: var(--display);
-  font-size:28px; font-weight:900;
-  text-transform:uppercase; letter-spacing:-0.5px;
-  color:var(--navy); line-height:1;
-}
-.ph em { color:var(--lime); font-style:normal; }
-.ph-sub { font-size:12px; color:var(--text3); font-family:var(--mono); margin-top:3px; }
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--r-pill);border:none;cursor:pointer;font-family:var(--display);font-size:14px;font-weight:800;transition:all .18s;white-space:nowrap;text-transform:uppercase;letter-spacing:0.5px;}
+.btn-p{background:var(--lime);color:var(--navy);box-shadow:0 2px 10px rgba(141,198,63,0.35);}
+.btn-p:hover{background:var(--lime2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(141,198,63,0.5);}
+.btn-g{background:transparent;border:1.5px solid var(--border2);color:var(--text2);}
+.btn-g:hover{background:var(--bg);color:var(--navy);border-color:var(--navy);}
+.btn-d{background:var(--red-dim);border:1.5px solid rgba(229,57,53,0.2);color:var(--red);}
+.btn-d:hover{background:rgba(229,57,53,0.18);}
+.btn-o{background:var(--orange-dim);border:1.5px solid rgba(245,124,0,0.3);color:var(--orange);}
+.btn-o:hover{background:rgba(245,124,0,0.18);}
 
-/* Cards */
-.card {
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:var(--r); padding:16px;
-  display:flex; flex-direction:column; gap:11px;
-  box-shadow: 0 2px 12px rgba(13,33,55,0.07);
-}
+.fr-row{display:flex;gap:5px;flex-wrap:wrap;}
+.fb{padding:5px 15px;border-radius:var(--r-pill);border:1.5px solid var(--border);background:transparent;color:var(--text2);font-size:12px;font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;cursor:pointer;transition:all .18s;}
+.fb:hover{border-color:var(--navy);color:var(--navy);}
+.fb.active{background:var(--navy);border-color:var(--navy);color:var(--white);}
 
-/* Inputs */
-input[type=text], input[type=date], input[type=password], select {
-  background:var(--bg);
-  border:1.5px solid var(--border);
-  border-radius:var(--r-sm);
-  color:var(--text);
-  font-family:var(--body); font-size:13.5px;
-  padding:9px 12px; outline:none; width:100%;
-  transition:border-color .2s, box-shadow .2s;
-}
-input:focus, select:focus { border-color:var(--lime); box-shadow:0 0 0 3px var(--lime-dim); }
-input::placeholder { color:var(--text3); }
-select {
-  cursor:pointer; appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233d5570' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
-  background-repeat:no-repeat; background-position:calc(100% - 12px) center; padding-right:32px;
-}
-select option { background:var(--white); }
+/* ── TASKS ── */
+.tl{display:flex;flex-direction:column;}
+.ti{display:flex;align-items:center;gap:12px;background:var(--white);border-bottom:1px solid var(--border);padding:12px 16px 12px 12px;transition:all .18s;animation:msgIn .2s both;position:relative;}
+.ti:first-child{border-top:1px solid var(--border);border-radius:var(--r-sm) var(--r-sm) 0 0;}
+.ti:last-child{border-radius:0 0 var(--r-sm) var(--r-sm);}
+.ti:only-child{border-radius:var(--r-sm);}
+.ti:hover{background:var(--bg);}
+.ti.dn{opacity:0.5;}.ti.dn .tt{text-decoration:line-through;color:var(--text3);}
+.tc{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3);transition:all .18s;}
+.tc:hover{background:var(--lime-dim);border-color:var(--lime);color:var(--lime-dark);}
+.ti.dn .tc{background:rgba(67,160,71,0.1);border-color:var(--green);color:var(--green);}
+.tb{flex:1;min-width:0;}
+.tt{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tm{display:flex;gap:8px;margin-top:3px;align-items:center;}
+.tp{font-size:10px;font-weight:800;font-family:var(--display);letter-spacing:0.8px;text-transform:uppercase;padding:2px 8px;border-radius:3px;}
+.tp.ph-cls{color:var(--red);background:var(--red-dim);}
+.tp.pn-cls{color:var(--lime-dark);background:var(--lime-dim);}
+.tp.pl-cls{color:var(--text3);background:var(--navy-dim);}
+.td{font-size:10.5px;color:var(--text3);font-family:var(--mono);}
+.tdel{width:28px;height:28px;border-radius:50%;background:none;border:1.5px solid var(--border);color:var(--text3);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0;transition:all .15s;}
+.ti:hover .tdel{opacity:1;}
+.tdel:hover{color:var(--red);background:var(--red-dim);border-color:rgba(229,57,53,0.3);}
 
-.row { display:flex; gap:8px; align-items:stretch; }
+/* ── MEMORY ── */
+.ml{display:flex;flex-direction:column;}
+.mi{display:flex;align-items:center;gap:10px;background:var(--white);border-bottom:1px solid var(--border);padding:11px 14px;animation:msgIn .2s both;transition:all .18s;}
+.mi:first-child{border-top:1px solid var(--border);border-radius:var(--r-sm) var(--r-sm) 0 0;}
+.mi:last-child{border-radius:0 0 var(--r-sm) var(--r-sm);}
+.mi:only-child{border-radius:var(--r-sm);}
+.mi:hover{background:var(--bg);}
+.mk{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--white);background:var(--navy);padding:3px 9px;border-radius:4px;flex-shrink:0;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:0.3px;cursor:pointer;}
+.mv{flex:1;font-size:13.5px;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mdel{width:26px;height:26px;border-radius:50%;background:none;border:1.5px solid var(--border);color:var(--text3);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0;transition:all .15s;}
+.mi:hover .mdel{opacity:1;}
+.mdel:hover{color:var(--red);background:var(--red-dim);border-color:rgba(229,57,53,0.3);}
 
-/* Buttons */
-.btn {
-  display:inline-flex; align-items:center; gap:6px;
-  padding:9px 18px; border-radius:var(--r-pill); border:none;
-  cursor:pointer; font-family:var(--display); font-size:14px; font-weight:800;
-  transition:all .18s; white-space:nowrap;
-  text-transform:uppercase; letter-spacing:0.5px;
-}
-.btn-p {
-  background:var(--lime); color:var(--navy);
-  box-shadow: 0 2px 10px rgba(141,198,63,0.35);
-}
-.btn-p:hover { background:var(--lime2); transform:translateY(-1px); box-shadow:0 4px 16px rgba(141,198,63,0.5); }
-.btn-p:active { transform:scale(0.97); }
-.btn-g {
-  background:transparent; border:1.5px solid var(--border2); color:var(--text2);
-}
-.btn-g:hover { background:var(--bg); color:var(--navy); border-color:var(--navy); }
-.btn-d {
-  background:var(--red-dim); border:1.5px solid rgba(229,57,53,0.2); color:var(--red);
-}
-.btn-d:hover { background:rgba(229,57,53,0.18); }
+.sugs{display:flex;flex-wrap:wrap;gap:6px;}
+.sc{font-size:11.5px;font-family:var(--mono);color:var(--text2);background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:4px 11px;cursor:pointer;transition:all .18s;}
+.sc:hover{border-color:var(--lime);color:var(--navy);background:var(--lime-dim);transform:translateY(-1px);}
 
-/* Filter pills */
-.fr-row { display:flex; gap:5px; flex-wrap:wrap; }
-.fb {
-  padding:5px 15px; border-radius:var(--r-pill);
-  border:1.5px solid var(--border); background:transparent;
-  color:var(--text2); font-size:12px; font-family:var(--display);
-  font-weight:700; text-transform:uppercase; letter-spacing:0.5px;
-  cursor:pointer; transition:all .18s;
-}
-.fb:hover { border-color:var(--navy); color:var(--navy); }
-.fb.active { background:var(--navy); border-color:var(--navy); color:var(--white); }
+/* ── SETTINGS ── */
+.ss{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 10px rgba(13,33,55,0.06);}
+.sl{font-family:var(--display);font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--navy);display:flex;align-items:center;gap:8px;}
+.sl-line{flex:1;height:1.5px;background:var(--border);}
+.sd{font-size:13px;color:var(--text2);line-height:1.65;}
+.sd a{color:var(--lime-dark);font-weight:600;text-decoration:none;border-bottom:1px solid var(--lime-dim);}
+.sd a:hover{border-bottom-color:var(--lime-dark);}
+.sd strong{color:var(--navy);font-weight:700;}
+.sd ol{padding-left:1.2em;margin-top:4px;}
+.sd li{margin-bottom:3px;}
 
-/* ══════════════════════════════
-   TASK LIST — SCA accordion row style
-══════════════════════════════ */
-.tl { display:flex; flex-direction:column; }
-.ti {
-  display:flex; align-items:center; gap:12px;
-  background:var(--white);
-  border-bottom:1px solid var(--border);
-  padding:12px 16px 12px 12px;
-  transition:all .18s; animation:msgIn .2s both;
-  position:relative;
-}
-.ti:first-child { border-top:1px solid var(--border); border-radius:var(--r-sm) var(--r-sm) 0 0; }
-.ti:last-child { border-radius:0 0 var(--r-sm) var(--r-sm); }
-.ti:only-child { border-radius:var(--r-sm); }
-.ti:hover { background:var(--bg); }
-.ti.dn { opacity:0.5; }
-.ti.dn .tt { text-decoration:line-through; color:var(--text3); }
+.kw{position:relative;}
+.kw input{padding-right:42px;font-family:var(--mono);font-size:12px;letter-spacing:0.5px;}
+.kt{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px;transition:color .15s;}
+.kt:hover{color:var(--navy);}
 
-/* Arrow circle button — SCA signature */
-.tc {
-  width:28px; height:28px; border-radius:50%;
-  border:2px solid var(--border2); background:transparent;
-  cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center;
-  font-size:11px; color:var(--text3); transition:all .18s;
-}
-.tc:hover { background:var(--lime-dim); border-color:var(--lime); color:var(--lime-dark); }
-.ti.dn .tc { background:rgba(67,160,71,0.1); border-color:var(--green); color:var(--green); }
+.dot-wrap{display:flex;align-items:center;gap:8px;font-size:13px;}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:all .25s;}
+.dot.ok{background:var(--green);box-shadow:0 0 6px rgba(67,160,71,0.5);}
+.dot.err{background:var(--red);box-shadow:0 0 6px rgba(229,57,53,0.4);}
 
-.tb { flex:1; min-width:0; }
-.tt { font-size:14px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.tm { display:flex; gap:8px; margin-top:3px; align-items:center; }
-.tp {
-  font-size:10px; font-weight:800; font-family:var(--display);
-  letter-spacing:0.8px; text-transform:uppercase;
-  padding:2px 8px; border-radius:3px;
+/* AI mode card */
+.ai-mode-card{
+  display:flex;flex-direction:column;gap:14px;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:18px;
+  box-shadow:0 2px 12px rgba(13,33,55,0.07);
 }
-.tp.ph-cls { color:var(--red); background:var(--red-dim); }
-.tp.pn-cls { color:var(--lime-dark); background:var(--lime-dim); }
-.tp.pl-cls { color:var(--text3); background:var(--navy-dim); }
-.td { font-size:10.5px; color:var(--text3); font-family:var(--mono); }
+.mode-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-sm);border:2px solid var(--border);cursor:pointer;transition:all .2s;}
+.mode-row:hover{border-color:var(--lime);background:var(--lime-dim);}
+.mode-row.selected{border-color:var(--lime);background:var(--lime-dim);}
+.mode-row-icon{font-size:22px;flex-shrink:0;}
+.mode-row-info{flex:1;}
+.mode-row-title{font-family:var(--display);font-size:14px;font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:0.3px;}
+.mode-row-desc{font-size:12px;color:var(--text3);margin-top:2px;}
+.mode-row-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;}
+.mode-row.selected .mode-row-check{background:var(--lime);border-color:var(--lime);color:var(--navy);}
 
-/* Arrow circle delete — SCA style */
-.tdel {
-  width:28px; height:28px; border-radius:50%;
-  background:none; border:1.5px solid var(--border);
-  color:var(--text3); cursor:pointer;
-  font-size:11px; display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; opacity:0; transition:all .15s;
-}
-.ti:hover .tdel { opacity:1; }
-.tdel:hover { color:var(--red); background:var(--red-dim); border-color:rgba(229,57,53,0.3); }
+/* model download progress */
+.dl-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;display:none;flex-direction:column;gap:8px;}
+.dl-box.show{display:flex;}
+/* model picker cards */
+.model-card{border:2px solid var(--border);border-radius:var(--r-sm);padding:13px 14px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:8px;background:var(--bg);}
+.model-card:hover{border-color:var(--lime);background:var(--lime-dim);}
+.model-card.selected{border-color:var(--lime-dark);background:var(--lime-dim);}
+.model-card-top{display:flex;align-items:center;gap:10px;}
+.model-icon{font-size:20px;flex-shrink:0;}
+.model-info{flex:1;}
+.model-name{font-family:var(--display);font-size:14px;font-weight:800;text-transform:uppercase;color:var(--navy);letter-spacing:0.2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.model-meta{font-size:11.5px;color:var(--text3);margin-top:2px;font-family:var(--mono);}
+.model-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .2s;}
+.model-card.selected .model-check{background:var(--lime);border-color:var(--lime-dark);color:var(--navy);}
+.model-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.mtag{font-size:10.5px;font-family:var(--mono);padding:3px 9px;border-radius:4px;font-weight:500;}
+.mtag.good{background:rgba(67,160,71,0.10);color:#2e7d32;}
+.mtag.bad{background:var(--red-dim);color:var(--red);}
+.mtag.warn{background:var(--orange-dim);color:var(--orange);}
+.rec-tag{font-size:9px;font-family:var(--mono);background:var(--lime);color:var(--navy);padding:2px 7px;border-radius:3px;font-weight:700;letter-spacing:0.5px;vertical-align:middle;}
+#offline-model-picker{display:flex;flex-direction:column;gap:10px;}
+.dl-label{font-size:12px;color:var(--text2);font-family:var(--mono);}
+.dl-bar-wrap{background:var(--bg2);border-radius:var(--r-pill);height:6px;overflow:hidden;}
+.dl-bar{height:100%;background:linear-gradient(90deg,var(--lime-dark),var(--lime2));border-radius:var(--r-pill);width:0%;transition:width 0.3s ease;}
+.dl-pct{font-size:11px;color:var(--text3);font-family:var(--mono);}
 
-/* ══════════════════════════════
-   MEMORY
-══════════════════════════════ */
-.ml { display:flex; flex-direction:column; }
-.mi {
-  display:flex; align-items:center; gap:10px;
-  background:var(--white); border-bottom:1px solid var(--border);
-  padding:11px 14px; animation:msgIn .2s both; transition:all .18s;
-}
-.mi:first-child { border-top:1px solid var(--border); border-radius:var(--r-sm) var(--r-sm) 0 0; }
-.mi:last-child { border-radius:0 0 var(--r-sm) var(--r-sm); }
-.mi:only-child { border-radius:var(--r-sm); }
-.mi:hover { background:var(--bg); }
-.mk {
-  font-family:var(--mono); font-size:10.5px; font-weight:500;
-  color:var(--white); background:var(--navy);
-  padding:3px 9px; border-radius:4px;
-  flex-shrink:0; max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-  letter-spacing:0.3px; cursor:pointer;
-}
-.mv { flex:1; font-size:13.5px; color:var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.mdel {
-  width:26px; height:26px; border-radius:50%;
-  background:none; border:1.5px solid var(--border);
-  color:var(--text3); cursor:pointer; font-size:11px;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; opacity:0; transition:all .15s;
-}
-.mi:hover .mdel { opacity:1; }
-.mdel:hover { color:var(--red); background:var(--red-dim); border-color:rgba(229,57,53,0.3); }
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;}
+.lo{padding:8px 13px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:var(--bg);color:var(--text2);font-size:13px;cursor:pointer;transition:all .18s;font-family:var(--body);font-weight:500;text-align:left;}
+.lo:hover:not(.sel){border-color:var(--navy);color:var(--navy);}
+.lo.sel{border-color:var(--lime-dark);background:var(--lime-dim);color:var(--navy);font-weight:700;}
 
-.sugs { display:flex; flex-wrap:wrap; gap:6px; }
-.sc {
-  font-size:11.5px; font-family:var(--mono); color:var(--text2);
-  background:var(--white); border:1.5px solid var(--border);
-  border-radius:var(--r-sm); padding:4px 11px;
-  cursor:pointer; transition:all .18s;
-}
-.sc:hover { border-color:var(--lime); color:var(--navy); background:var(--lime-dim); transform:translateY(-1px); }
+.empty{text-align:center;color:var(--text3);font-size:13.5px;padding:44px 20px;line-height:2;border:1.5px dashed var(--border2);border-radius:var(--r);background:var(--white);font-family:var(--body);}
 
-/* ══════════════════════════════
-   SETTINGS — SCA accordion sections
-══════════════════════════════ */
-.ss {
-  background:var(--white); border:1px solid var(--border);
-  border-radius:var(--r); padding:18px;
-  display:flex; flex-direction:column; gap:12px;
-  box-shadow:0 2px 10px rgba(13,33,55,0.06);
-}
-.sl {
-  font-family:var(--display); font-size:13px; font-weight:900;
-  text-transform:uppercase; letter-spacing:1px; color:var(--navy);
-  display:flex; align-items:center; gap:8px;
-}
-.sl-line { flex:1; height:1.5px; background:var(--border); }
-.sd { font-size:13px; color:var(--text2); line-height:1.65; }
-.sd a { color:var(--lime-dark); font-weight:600; text-decoration:none; border-bottom:1px solid var(--lime-dim); }
-.sd a:hover { border-bottom-color:var(--lime-dark); }
-.sd strong { color:var(--navy); font-weight:700; }
-.sd ol { padding-left:1.2em; margin-top:4px; }
-.sd li { margin-bottom:3px; }
-
-.kw { position:relative; }
-.kw input { padding-right:42px; font-family:var(--mono); font-size:12px; letter-spacing:0.5px; }
-.kt { position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text3); cursor:pointer; font-size:15px; transition:color .15s; }
-.kt:hover { color:var(--navy); }
-
-.dot-wrap { display:flex; align-items:center; gap:8px; font-size:13px; }
-.dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--border2); flex-shrink:0; transition:all .25s; }
-.dot.ok  { background:var(--green); box-shadow:0 0 6px rgba(67,160,71,0.5); }
-.dot.err { background:var(--red); box-shadow:0 0 6px rgba(229,57,53,0.4); }
-
-.lg { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:6px; }
-.lo {
-  padding:8px 13px; border-radius:var(--r-sm); border:1.5px solid var(--border);
-  background:var(--bg); color:var(--text2); font-size:13px;
-  cursor:pointer; transition:all .18s; font-family:var(--body); font-weight:500; text-align:left;
-}
-.lo:hover:not(.sel) { border-color:var(--navy); color:var(--navy); }
-.lo.sel { border-color:var(--lime-dark); background:var(--lime-dim); color:var(--navy); font-weight:700; }
-
-.empty {
-  text-align:center; color:var(--text3); font-size:13.5px;
-  padding:44px 20px; line-height:2;
-  border:1.5px dashed var(--border2); border-radius:var(--r);
-  background:var(--white); font-family:var(--body);
-}
-
-/* ══════════════════════════════
-   MOBILE
-══════════════════════════════ */
 @media(max-width:520px){
-  header { margin:8px 10px 0; padding:6px 7px 6px 12px; }
-  .logo-text { font-size:19px; }
-  .logo-tagline, .logo-badge { display:none; }
-  .nav-btn { padding:5px 10px; font-size:11.5px; }
-  .msg { max-width:94%; }
-  #chat-messages { padding:12px 10px; }
-  .inp-area { padding:9px 10px 12px; }
-  .pb { padding:14px 10px; }
-  .ph { font-size:22px; }
+  header{margin:8px 10px 0;padding:6px 7px 6px 12px;}
+  .logo-text{font-size:19px;}.logo-tagline{display:none;}
+  #mode-badge{padding:4px 9px;font-size:10px;}
+  .nav-btn{padding:5px 10px;font-size:11.5px;}
+  .msg{max-width:94%;}
+  #chat-messages{padding:12px 10px;}
+  .inp-area{padding:9px 10px 12px;}
+  .pb{padding:14px 10px;}
+  .ph{font-size:22px;}
 }
-
 </style>
 </head>
 <body>
+
+<!-- ── MODEL DOWNLOAD OVERLAY ── -->
+<div id="loader-overlay">
+  <div class="loader-box">
+    <div class="loader-icon">⚙️</div>
+    <div class="loader-title">Loading <em>Offline AI</em></div>
+    <div class="loader-sub">Downloading the AI model to your browser.<br>This happens <strong>once only</strong> — then it's cached forever.</div>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+    <div class="loader-pct" id="loader-pct">0%</div>
+    <div class="loader-status" id="loader-status">Initializing…</div>
+    <button class="loader-skip" onclick="skipOfflineLoad()">Skip — use online mode instead</button>
+  </div>
+</div>
+
 <div id="app">
 
-<!-- ══════════════════════════════
-     FLOATING PILL NAVBAR
-══════════════════════════════ -->
+<!-- ── FLOATING NAVBAR ── -->
 <header>
   <div class="logo">
     <div class="logo-mark">🤖</div>
     <div>
       <div class="logo-text">BRO<span>.</span></div>
-      <div class="logo-tagline">AI Buddy · Free</div>
+      <div class="logo-tagline">AI Buddy · Offline Ready</div>
     </div>
-    <div class="logo-badge">✦ 100% Free</div>
   </div>
+
+  <div id="mode-badge" class="offline">
+    <div class="mode-dot"></div>
+    <span id="mode-label">Checking…</span>
+  </div>
+
   <nav>
     <button class="nav-btn active" onclick="switchTab('chat',this)">💬 Chat</button>
     <button class="nav-btn" onclick="switchTab('tasks',this)">✅ Tasks</button>
@@ -599,27 +399,25 @@ select option { background:var(--white); }
   </nav>
 </header>
 
-<!-- ══════════════════════════════
-     SETUP BANNER
-══════════════════════════════ -->
-<div id="setup-banner" class="show">
-  ⚡ <strong>Step 1:</strong> Get your FREE Gemini API key at
+<!-- ── BANNERS ── -->
+<div id="setup-banner">
+  ⚡ <strong>Online mode:</strong> Get your FREE Gemini key at
   <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>
-  — no credit card needed → paste it in <strong>⚙️ Settings</strong>
+  → paste in <strong>⚙️ Settings</strong>. Or use <strong>Offline AI</strong> — no key needed!
+</div>
+<div id="offline-banner">
+  📴 <strong>Offline AI active</strong> — Running a local model in your browser. Responses may be shorter. For better answers, add a Gemini key in ⚙️ Settings.
 </div>
 
-<!-- ══════════════════════════════
-     CHAT PANEL
-══════════════════════════════ -->
+<!-- ══════ CHAT ══════ -->
 <div id="panel-chat" class="panel active">
   <div id="chat-messages"></div>
-
   <div class="inp-area">
     <div class="inp-row">
       <button class="ib" id="vbtn" onclick="toggleVoice()" title="Voice input">🎤</button>
-      <textarea id="chat-inp" rows="1" placeholder="Ask Bro anything..." onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <textarea id="chat-inp" rows="1" placeholder="Ask Bro anything…" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button class="ib" onclick="speakLast()" title="Read last reply">🔊</button>
-      <button class="send-btn" id="send-btn" onclick="sendMsg()" disabled title="Send">
+      <button class="send-btn" id="send-btn" onclick="sendMsg()" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
@@ -634,9 +432,7 @@ select option { background:var(--white); }
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     TASKS PANEL
-══════════════════════════════ -->
+<!-- ══════ TASKS ══════ -->
 <div id="panel-tasks" class="panel">
   <div class="pb">
     <div class="panel-hdr">
@@ -664,9 +460,7 @@ select option { background:var(--white); }
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     MEMORY PANEL
-══════════════════════════════ -->
+<!-- ══════ MEMORY ══════ -->
 <div id="panel-memory" class="panel">
   <div class="pb">
     <div class="panel-hdr">
@@ -681,15 +475,12 @@ select option { background:var(--white); }
       </div>
     </div>
     <div>
-      <div class="sl" style="margin-bottom:10px; font-size:11px">
-        Quick Suggestions <div class="sl-line"></div>
-      </div>
+      <div class="sl" style="margin-bottom:10px;font-size:11px">Quick Suggestions <div class="sl-line"></div></div>
       <div class="sugs">
         <span class="sc" onclick="fillKey(this)">user_name</span>
         <span class="sc" onclick="fillKey(this)">main_goal</span>
         <span class="sc" onclick="fillKey(this)">tech_stack</span>
         <span class="sc" onclick="fillKey(this)">college</span>
-        <span class="sc" onclick="fillKey(this)">wake_time</span>
         <span class="sc" onclick="fillKey(this)">current_project</span>
         <span class="sc" onclick="fillKey(this)">coding_language</span>
         <span class="sc" onclick="fillKey(this)">study_subject</span>
@@ -699,266 +490,784 @@ select option { background:var(--white); }
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     SETTINGS PANEL
-══════════════════════════════ -->
+<!-- ══════ SETTINGS ══════ -->
 <div id="panel-settings" class="panel">
   <div class="pb">
     <div class="panel-hdr">
       <div class="ph">⚙️ <em>Settings</em></div>
-      <div class="ph-sub">Configure your free AI buddy</div>
+      <div class="ph-sub">Configure your AI buddy</div>
     </div>
 
-    <!-- API KEY -->
+    <!-- AI MODE SELECTOR -->
+    <div class="ai-mode-card">
+      <div class="sl">🤖 AI Mode <div class="sl-line"></div></div>
+      <div class="mode-row selected" id="mode-auto-row" onclick="setAiMode('auto',this)">
+        <div class="mode-row-icon">⚡</div>
+        <div class="mode-row-info"><div class="mode-row-title">Auto (Recommended)</div><div class="mode-row-desc">Gemini when online · Local AI when offline</div></div>
+        <div class="mode-row-check">✓</div>
+      </div>
+      <div class="mode-row" id="mode-online-row" onclick="setAiMode('online',this)">
+        <div class="mode-row-icon">🌐</div>
+        <div class="mode-row-info"><div class="mode-row-title">Online Only (Gemini)</div><div class="mode-row-desc">Best quality · Needs API key + internet</div></div>
+        <div class="mode-row-check"></div>
+      </div>
+      <div class="mode-row" id="mode-offline-row" onclick="setAiMode('offline',this)">
+        <div class="mode-row-icon">📴</div>
+        <div class="mode-row-info"><div class="mode-row-title">Offline Only (Local AI)</div><div class="mode-row-desc">No internet needed · choose model below</div></div>
+        <div class="mode-row-check"></div>
+      </div>
+    </div>
+
+    <!-- OFFLINE MODEL PICKER -->
+    <div class="ss" id="offline-model-picker">
+      <div class="sl">📴 Choose Offline Model <div class="sl-line"></div></div>
+
+            <div class="model-card" id="mcard-smollm" onclick="selectOfflineModel('smollm',this)">
+        <div class="model-card-top">
+          <div class="model-icon">🟢</div>
+          <div class="model-info">
+            <div class="model-name">SmolLM2 360M</div>
+            <div class="model-meta">HuggingFaceTB/SmolLM2-360M-Instruct · ~220MB · Transformers.js</div>
+          </div>
+          <div class="model-check"></div>
+        </div>
+        <div class="model-tags">
+          <span class="mtag good">✅ 100% public, no login</span>
+          <span class="mtag good">✅ ~3 min download</span>
+          <span class="mtag warn">⏳ Basic chat quality</span>
+        </div>
+      </div>
+
+      <div class="model-card selected" id="mcard-qwen-small" onclick="selectOfflineModel('qwen-small',this)">
+        <div class="model-card-top">
+          <div class="model-icon">&#x1F7E1;</div>
+          <div class="model-info">
+            <div class="model-name">Qwen2.5 0.5B <span class="rec-tag">RECOMMENDED</span></div>
+            <div class="model-meta">onnx-community/Qwen2.5-0.5B-Instruct &nbsp;&middot;&nbsp; ~400MB &nbsp;&middot;&nbsp; Transformers.js</div>
+          </div>
+          <div class="model-check">&#x2713;</div>
+        </div>
+        <div class="model-tags">
+          <span class="mtag good">&#x2705; 100% public, no login</span>
+          <span class="mtag good">&#x2705; Real reasoning + chat</span>
+          <span class="mtag bad">&#x26A0;&#xFE0F; Needs Chrome + WebGPU</span>
+          <span class="mtag warn">&#x23F3; ~5 min first download</span>
+        </div>
+      <div class="model-card" id="mcard-phi3" onclick="selectOfflineModel('phi3',this)">
+        <div class="model-card-top">
+          <div class="model-icon">&#x1F534;</div>
+          <div class="model-info">
+            <div class="model-name">Phi-3 Mini &nbsp;<span class="rec-tag" style="background:var(--purple);color:#fff">BEST QUALITY</span></div>
+            <div class="model-meta">Phi-3-mini-4k-instruct-q4f16_1-MLC &nbsp;&middot;&nbsp; ~2.4GB &nbsp;&middot;&nbsp; WebLLM (WebGPU)</div>
+          </div>
+          <div class="model-check"></div>
+        </div>
+        <div class="model-tags">
+          <span class="mtag good">&#x2705; Near GPT-3.5 quality</span>
+          <span class="mtag good">&#x2705; Real chat reasoning</span>
+          <span class="mtag bad">&#x26A0;&#xFE0F; Chrome + GPU required</span>
+          <span class="mtag bad">&#x26A0;&#xFE0F; ~15&#x2013;30 min first load</span>
+        </div>
+      </div>
+
+      <div class="dl-box" id="dl-box">
+        <div class="dl-label" id="dl-label">Downloading model...</div>
+        <div class="dl-bar-wrap"><div class="dl-bar" id="dl-bar"></div></div>
+        <div class="dl-pct" id="dl-pct">0%</div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-o" id="load-offline-btn" onclick="loadOfflineModel()">&#x1F4E5; Load Selected Model</button>
+        <button class="btn btn-g" id="unload-offline-btn" onclick="unloadOfflineModel()" style="display:none">&#x1F5D1; Unload Model</button>
+      </div>
+      <div class="sd" id="offline-model-status">Status: Not loaded &middot; Select a model above then click Load</div>
+    </div>
+
+    <!-- GEMINI API KEY -->
     <div class="ss">
-      <div class="sl">🔑 Gemini API Key <div class="sl-line"></div></div>
+      <div class="sl">&#x1F511; Gemini API Key (FREE) <div class="sl-line"></div></div>
       <div class="kw">
         <input type="password" id="key-inp" placeholder="AIzaSy..." oninput="saveKey()"/>
-        <button class="kt" onclick="toggleVis()">👁</button>
+        <button class="kt" onclick="toggleVis()">&#x1F441;</button>
       </div>
       <div class="dot-wrap">
         <span class="dot" id="kdot"></span>
         <span id="ktext" style="color:var(--text2)">No key saved</span>
       </div>
       <div class="sd">
-        <strong>Get your free key in 2 minutes:</strong>
+        <strong>Free key &mdash; 2 minutes:</strong>
         <ol>
           <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a></li>
-          <li>Sign in with Google</li>
-          <li>Click <strong>"Create API key"</strong> → copy it</li>
-          <li>Paste above</li>
+          <li>Sign in with Google &rarr; Click <strong>"Create API key"</strong></li>
+          <li>Paste it above</li>
         </ol>
-        ✅ No credit card. 🔒 Key stays in your browser only.
+        &#x2705; No credit card. &#x1F512; Key stays in your browser only.
       </div>
     </div>
 
-    <!-- MODEL -->
+    <!-- GEMINI MODEL -->
     <div class="ss">
-      <div class="sl">🤖 Model <div class="sl-line"></div></div>
+      <div class="sl">&#x2601;&#xFE0F; Online Model <div class="sl-line"></div></div>
       <select id="model-sel" onchange="saveSetting('model',this.value)">
-        <option value="gemini-2.5-flash">gemini-2.5-flash — Recommended (fast + smart)</option>
-        <option value="gemini-2.5-pro">gemini-2.5-pro — Most capable (100 req/day)</option>
-        <option value="gemini-2.5-flash-lite-preview-06-17">gemini-2.5-flash-lite — Fastest (1000 req/day)</option>
+        <option value="gemini-2.5-flash">gemini-2.5-flash &mdash; Recommended</option>
+        <option value="gemini-2.5-pro">gemini-2.5-pro &mdash; Most capable</option>
+        <option value="gemini-2.5-flash-lite-preview-06-17">gemini-2.5-flash-lite &mdash; Fastest</option>
       </select>
-      <div class="sd">Flash: 250 free req/day · Flash-Lite: 1,000/day · Pro: 100/day</div>
     </div>
 
     <!-- VOICE LANGUAGE -->
     <div class="ss">
-      <div class="sl">🎤 Voice Language <div class="sl-line"></div></div>
+      <div class="sl">&#x1F3A4; Voice Language <div class="sl-line"></div></div>
       <div class="lg" id="lang-grid"></div>
     </div>
 
     <!-- DANGER ZONE -->
     <div class="ss">
-      <div class="sl">🗑 Data <div class="sl-line"></div></div>
+      <div class="sl">&#x1F5D1; Data <div class="sl-line"></div></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="btn btn-d" onclick="clearChat()">Clear Chat</button>
         <button class="btn btn-d" onclick="resetAll()">Reset Everything</button>
       </div>
-      <div class="sd">All data lives locally in your browser. Nothing is sent to any server except your messages to Google's API.</div>
+      <div class="sd">All data in your browser only. Messages go to Google's API (online) or stay on-device (offline).</div>
     </div>
+
   </div>
-</div>
+</div><!-- panel-settings -->
 
 </div><!-- #app -->
 
-<script>
-// ═══════════════════════════════════════
-//  BRO — Gemini-powered, 100% free
-// ═══════════════════════════════════════
+<!-- ── TRANSFORMERS.JS ── -->
+<script type="module">
+// ═══════════════════════════════════════════════════════
+//  BRO — Offline AI via Transformers.js + Gemini fallback
+// ═══════════════════════════════════════════════════════
+import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
+
+// Allow remote model loading (cached after first download)
+env.allowRemoteModels = true;
+env.allowLocalModels  = false;
+
+// ── Storage keys
 const S = { KEY:'bro_gkey', MSGS:'bro_msgs', MEM:'bro_mem', TASKS:'bro_tasks', CFG:'bro_cfg' };
-let msgs=[],memories={},tasks=[],cfg={model:'gemini-2.5-flash',lang:'en-IN'};
-let busy=false,rec=null,isListening=false,taskFilter='pending';
 
-function systemPrompt(){
-  const mems=Object.entries(memories).map(([k,v])=>`  - ${k}: ${v}`).join('\n')||'  None yet.';
-  return `You are Bro — a smart, reliable AI assistant who feels like a best friend, not a corporate chatbot.
+// ── State
+let msgs = [], memories = {}, tasks = [];
+let cfg  = { model:'gemini-2.5-flash', lang:'en-IN', aiMode:'auto' };
+let busy = false, rec = null, isListening = false, taskFilter = 'pending';
+let offlinePipe = null;         // Transformers.js pipeline
+let offlineReady = false;       // is local model loaded
+let selectedOfflineModel = 'qwen-small'; // default
+let webllmEngine = null;        // WebLLM engine for Phi-3
+let isOnline = navigator.onLine;
 
-## Personality
-- Talk like a smart friend. Casual but not slangy. Direct. Honest.
-- Use "bro", "honestly", "here's the deal", "let's go" naturally — don't force it.
-- Be encouraging and occasionally funny, but never cringe.
-- NEVER say "Certainly!", "Of course!", "Absolutely!", "Great question!" — those are awful.
-- Keep replies SHORT by default:
-  • Simple question → 1-3 sentences
-  • Technical/study → clean bullet points or code blocks
-  • If a long answer is needed → ask first
-- Use **bold** for key terms, \`code\` for technical words, numbered lists for steps.
+// ── Expose globals so inline onclick handlers work
+window.switchTab      = switchTab;
+window.sendMsg        = sendMsg;
+window.handleKey      = handleKey;
+window.autoResize     = autoResize;
+window.useHint        = useHint;
+window.toggleVoice    = toggleVoice;
+window.speakLast      = speakLast;
+window.addTask        = addTask;
+window.toggleTask     = toggleTask;
+window.delTask        = delTask;
+window.setFilter      = setFilter;
+window.addMem         = addMem;
+window.delMem         = delMem;
+window.fillKey        = fillKey;
+window.saveKey        = saveKey;
+window.toggleVis      = toggleVis;
+window.saveSetting    = saveSetting;
+window.selLang        = selLang;
+window.clearChat      = clearChat;
+window.resetAll       = resetAll;
+window.setAiMode      = setAiMode;
+window.loadOfflineModel    = loadOfflineModel;
+window.unloadOfflineModel  = unloadOfflineModel;
+window.selectOfflineModel  = selectOfflineModel;
+window.skipOfflineLoad    = skipOfflineLoad;
 
-## Skills
-- Coding: write clean, commented code in the user's language
-- Study buddy: simple explanation first, depth on request
-- Productivity: break big goals into small wins, plan realistically
-- Task & daily planning: help prioritise, estimate time, track progress
+// ── Monitor connectivity
+window.addEventListener('online',  () => { isOnline = true;  updateModeBadge(); });
+window.addEventListener('offline', () => { isOnline = false; updateModeBadge(); });
 
-## What you know about the user (use naturally, don't recite):
-${mems}
-
-## Rules
-- If unsure, say so and reason through it together
-- Always use language tags in code blocks (\`\`\`python, \`\`\`js etc)
-- If user seems stressed, acknowledge it before diving in
-- Be honest — say "bro that's a bad idea" when something's genuinely off`;
+// ═══════════════════════════════════════════════════
+//  SYSTEM PROMPT
+// ═══════════════════════════════════════════════════
+function systemPrompt() {
+  const mems = Object.entries(memories).map(([k,v]) => `  - ${k}: ${v}`).join('\n') || '  None yet.';
+  return `You are Bro, a helpful and friendly AI assistant. Be concise, direct, and helpful. Use casual but smart language. What you know about the user:\n${mems}`;
 }
 
-function init(){
-  msgs=JSON.parse(localStorage.getItem(S.MSGS)||'[]');
-  memories=JSON.parse(localStorage.getItem(S.MEM)||'{}');
-  tasks=JSON.parse(localStorage.getItem(S.TASKS)||'[]');
-  cfg={...cfg,...JSON.parse(localStorage.getItem(S.CFG)||'{}')};
-  const k=localStorage.getItem(S.KEY)||'';
-  document.getElementById('key-inp').value=k;
-  document.getElementById('model-sel').value=cfg.model;
-  updateKeyUI(k);buildLangGrid();renderMsgs();renderTasks();renderMems();updateSend();updateBanner();
-  if(msgs.length===0) addMsgDOM('bro',"Hey! Bro here 🤖\n\nGet your **free** Gemini API key from ⚙️ Settings — takes 2 minutes, no credit card. Then let's get to work!");
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+function init() {
+  msgs     = JSON.parse(localStorage.getItem(S.MSGS)  || '[]');
+  memories = JSON.parse(localStorage.getItem(S.MEM)   || '{}');
+  tasks    = JSON.parse(localStorage.getItem(S.TASKS) || '[]');
+  cfg      = { ...cfg, ...JSON.parse(localStorage.getItem(S.CFG) || '{}') };
+
+  const k = localStorage.getItem(S.KEY) || '';
+  document.getElementById('key-inp').value = k;
+  document.getElementById('model-sel').value = cfg.model;
+
+  updateKeyUI(k); buildLangGrid(); renderMsgs(); renderTasks(); renderMems();
+  updateSend(); updateBanner(); updateModeBadge();
+  restoreAiModeUI();
+  // Restore selected offline model
+  if (cfg.selectedOfflineModel) {
+    selectedOfflineModel = cfg.selectedOfflineModel;
+    document.querySelectorAll('.model-card').forEach(c => { c.classList.remove('selected'); c.querySelector('.model-check').textContent = ''; });
+    const el = document.getElementById('mcard-' + selectedOfflineModel);
+    if (el) { el.classList.add('selected'); el.querySelector('.model-check').textContent = '✓'; }
+  }
+
+  if (msgs.length === 0) {
+    addMsgDOM('bro', "Hey! Bro here 🤖\n\nTo get started, pick one of these:\n\n**Option A — Online AI (Recommended):**\nGet a free Gemini key at aistudio.google.com → paste in ⚙️ Settings. Takes 2 min, no credit card.\n\n**Option B — Offline AI (No key needed):**\nGo to ⚙️ Settings → pick SmolLM2 360M → click Load. Downloads ~220MB once, then works forever — even without internet!\n\nWhat'll it be? 🚀");
+  }
+
+  // Auto-load offline model if mode is offline or auto
+  if (cfg.aiMode === 'offline') {
+    loadOfflineModel(true); // silent load
+  }
 }
 
-function switchTab(tab,btn){
+// ═══════════════════════════════════════════════════
+//  AI MODE
+// ═══════════════════════════════════════════════════
+function setAiMode(mode, el) {
+  cfg.aiMode = mode;
+  saveSetting('aiMode', mode);
+  document.querySelectorAll('.mode-row').forEach(r => {
+    r.classList.remove('selected');
+    r.querySelector('.mode-row-check').textContent = '';
+  });
+  el.classList.add('selected');
+  el.querySelector('.mode-row-check').textContent = '✓';
+  updateModeBadge(); updateBanner();
+}
+
+function restoreAiModeUI() {
+  const mode = cfg.aiMode || 'auto';
+  const map = { auto:'mode-auto-row', online:'mode-online-row', offline:'mode-offline-row' };
+  document.querySelectorAll('.mode-row').forEach(r => { r.classList.remove('selected'); r.querySelector('.mode-row-check').textContent=''; });
+  const el = document.getElementById(map[mode]);
+  if (el) { el.classList.add('selected'); el.querySelector('.mode-row-check').textContent='✓'; }
+}
+
+function shouldUseOffline() {
+  if (cfg.aiMode === 'offline') return true;
+  if (cfg.aiMode === 'online')  return false;
+  // auto mode: prefer online if key exists
+  const k = localStorage.getItem(S.KEY) || '';
+  if (k.startsWith('AIza') && isOnline) return false;  // use Gemini
+  return true;  // no key or offline → try local AI
+}
+
+// ═══════════════════════════════════════════════════
+//  OFFLINE MODEL LOADER (Transformers.js)
+// ═══════════════════════════════════════════════════
+// ── Select which offline model to use
+function selectOfflineModel(modelKey, el) {
+  if (offlineReady) {
+    if (!confirm('Switching model will unload the current one. Continue?')) return;
+    unloadOfflineModel();
+  }
+  selectedOfflineModel = modelKey;
+  saveSetting('selectedOfflineModel', modelKey);
+  document.querySelectorAll('.model-card').forEach(c => {
+    c.classList.remove('selected');
+    c.querySelector('.model-check').textContent = '';
+  });
+  el.classList.add('selected');
+  el.querySelector('.model-check').textContent = '✓';
+}
+
+// Transformers.js v3.8 — verified working models
+const MODEL_CONFIGS = {
+  'smollm': {
+    label: 'SmolLM2 360M',
+    id: 'HuggingFaceTB/SmolLM2-360M-Instruct',  // 360M >> 135M for coherent answers
+    task: 'text-generation',
+    dtype: 'q4',
+    device: 'wasm',      // CPU/WASM — works on any browser, no GPU
+    size: '~220MB',
+    engine: 'transformers',
+    chat: true
+  },
+  'qwen-small': {
+    label: 'Qwen2.5 0.5B',
+    id: 'onnx-community/Qwen2.5-0.5B-Instruct',
+    task: 'text-generation',
+    dtype: 'q4',
+    device: 'webgpu',   // WebGPU — Chrome 113+ required
+    size: '~400MB',
+    engine: 'transformers',
+    chat: true
+  },
+  'phi3': {
+    label: 'Phi-3 Mini (WebLLM)',
+    id: 'Phi-3-mini-4k-instruct-q4f16_1-MLC',
+    size: '~2.4GB',
+    engine: 'webllm',
+    chat: true
+  }
+};
+
+async function loadOfflineModel(silent = false) {
+  if (offlineReady) { updateOfflineStatus('✅ Model already loaded!'); return; }
+  if (!silent) document.getElementById('loader-overlay').classList.add('show');
+
+  const mc = MODEL_CONFIGS[selectedOfflineModel] || MODEL_CONFIGS['qwen-small'];
+  updateOfflineStatus(`Loading ${mc.label} (${mc.size})…`);
+  updateDlBox(true, `Downloading ${mc.label} (${mc.size}) — first time only…`, 0);
+
+  try {
+    if (mc.engine === 'webllm') {
+      await loadWebLLM(mc, silent);
+    } else {
+      await loadTransformers(mc, silent);
+    }
+  } catch (err) {
+    console.error('Offline model load failed:', err);
+    // Get the real error — err.message can be undefined if it's not an Error object
+    const errMsg = (err && err.message) ? err.message
+                 : (err && err.toString) ? err.toString()
+                 : 'Unknown error (check browser console for details)';
+    updateOfflineStatus('❌ Failed: ' + errMsg);
+    updateDlBox(false);
+    document.getElementById('loader-overlay').classList.remove('show');
+    if (!silent) {
+      let tip = '';
+      if (errMsg.includes('WebGPU') || errMsg.includes('webgpu') || mc.device === 'webgpu') {
+        tip = '\n\n💡 Tip: Switch to SmolLM2 360M — it works on any browser without a GPU.';
+      } else if (errMsg.includes('fetch') || errMsg.includes('network') || errMsg.toLowerCase().includes('load')) {
+        tip = '\n\n💡 Tip: Check your internet connection — the model needs to download once.';
+      } else {
+        tip = '\n\n💡 Try SmolLM2 360M (most compatible) or add a Gemini key for online mode.';
+      }
+      addMsgDOM('bro', '⚠️ Could not load ' + mc.label + ':\n' + errMsg + tip);
+    }
+  }
+}
+
+// ── Load via Transformers.js v3.8 (SmolLM2 / Qwen2.5)
+async function loadTransformers(mc, silent) {
+  const progressCallback = (data) => {
+    // v3.8 uses status: 'progress_total', 'progress', 'initiate', 'done'
+    if (data.status === 'progress_total') {
+      const pct = Math.round(data.progress || 0);
+      setLoaderProgress(pct, 'Downloading ' + (data.file || 'model') + '...');
+      updateDlBox(true, 'Downloading ' + (data.file || 'model files') + '...', pct);
+    } else if (data.status === 'progress') {
+      const pct = Math.round(data.progress || 0);
+      setLoaderProgress(pct, 'Downloading... ' + pct + '%');
+      updateDlBox(true, 'Downloading... ' + pct + '%', pct);
+    } else if (data.status === 'downloading') {
+      const pct = data.total ? Math.round((data.loaded / data.total) * 100) : 0;
+      setLoaderProgress(pct, 'Downloading ' + (data.file || 'model') + '...');
+      updateDlBox(true, 'Downloading ' + (data.file || 'model') + '...', pct);
+    } else if (data.status === 'initiate') {
+      setLoaderProgress(5, 'Fetching ' + (data.file || 'config') + '...');
+    } else if (data.status === 'done') {
+      setLoaderProgress(98, 'Finalizing...');
+    }
+  };
+
+  // Check WebGPU availability for models that need it
+  if (mc.device === 'webgpu' && !navigator.gpu) {
+    throw new Error('WebGPU not supported in your browser. Try Chrome 113+ or switch to SmolLM2 (WASM mode, no GPU needed).');
+  }
+
+  const opts = {
+    dtype: mc.dtype || 'q4',
+    device: mc.device || 'wasm',
+    progress_callback: progressCallback
+  };
+
+  try {
+    offlinePipe = await pipeline(mc.task, mc.id, opts);
+  } catch(pipeErr) {
+    // Re-throw with more context
+    const msg = (pipeErr && pipeErr.message) ? pipeErr.message : String(pipeErr);
+    throw new Error(msg || 'pipeline() failed — model may not support this device/dtype combo');
+  }
+  finishLoad(mc, silent);
+}
+
+// ── Load via WebLLM (Phi-3 Mini)
+async function loadWebLLM(mc, silent) {
+  // Dynamically import WebLLM
+  const { CreateMLCEngine } = await import('https://esm.run/@mlc-ai/web-llm');
+  setLoaderProgress(5, 'Initializing WebLLM engine…');
+  updateDlBox(true, 'WebLLM: initializing…', 5);
+
+  const initProgressCallback = (report) => {
+    const pct = Math.round(report.progress * 100);
+    setLoaderProgress(pct, report.text || `Loading ${mc.label}…`);
+    updateDlBox(true, report.text || `Downloading ${mc.label}…`, pct);
+  };
+
+  webllmEngine = await CreateMLCEngine(mc.id, { initProgressCallback });
+  finishLoad(mc, silent);
+}
+
+function finishLoad(mc, silent) {
+  offlineReady = true;
+  setLoaderProgress(100, `✅ ${mc.label} ready!`);
+  updateOfflineStatus(`✅ ${mc.label} loaded — fully offline, no internet needed.`);
+  updateDlBox(false);
+  document.getElementById('load-offline-btn').style.display   = 'none';
+  document.getElementById('unload-offline-btn').style.display = 'inline-flex';
+  setTimeout(() => document.getElementById('loader-overlay').classList.remove('show'), 1200);
+  updateModeBadge();
+  if (!silent) addMsgDOM('bro', `🎉 **${mc.label}** is loaded and running in your browser!\n\nNo internet needed — fully offline. Ask me anything!`);
+}
+
+function unloadOfflineModel() {
+  offlinePipe   = null;
+  webllmEngine  = null;
+  offlineReady  = false;
+  updateOfflineStatus('Model unloaded. Select a model and click Load.');
+  updateDlBox(false);
+  document.getElementById('load-offline-btn').style.display   = 'inline-flex';
+  document.getElementById('unload-offline-btn').style.display = 'none';
+  updateModeBadge();
+}
+
+function skipOfflineLoad() {
+  document.getElementById('loader-overlay').classList.remove('show');
+}
+
+function setLoaderProgress(pct, status) {
+  document.getElementById('loader-bar').style.width = pct + '%';
+  document.getElementById('loader-pct').textContent  = pct + '%';
+  document.getElementById('loader-status').textContent = status;
+}
+
+function updateDlBox(show, label = '', pct = 0) {
+  const box = document.getElementById('dl-box');
+  box.classList.toggle('show', show);
+  if (show) {
+    document.getElementById('dl-label').textContent = label;
+    document.getElementById('dl-bar').style.width   = pct + '%';
+    document.getElementById('dl-pct').textContent   = pct + '%';
+  }
+}
+
+function updateOfflineStatus(msg) {
+  document.getElementById('offline-model-status').textContent = 'Status: ' + msg;
+}
+
+// ═══════════════════════════════════════════════════
+//  SEND MESSAGE
+// ═══════════════════════════════════════════════════
+async function sendMsg() {
+  const inp = document.getElementById('chat-inp');
+  const txt = inp.value.trim();
+  if (!txt || busy) return;
+
+  inp.value = ''; autoResize(inp);
+  addMsg('user', txt);
+  document.getElementById('hints').style.display = 'none';
+  busy = true; updateSend(); showTyping();
+
+  const useOffline = shouldUseOffline();
+
+  if (useOffline) {
+    await sendOffline(txt);
+  } else {
+    await sendGemini(txt);
+  }
+
+  busy = false; updateSend();
+}
+
+// ── OFFLINE: routes to Transformers.js or WebLLM
+async function sendOffline(txt) {
+  if (!offlineReady) {
+    rmTyping();
+    // Don't auto-load — guide the user clearly instead
+    addMsg('bro',
+      "⚠️ No AI is configured yet! Here's how to fix it:\n\n" +
+      "**Option A — Online (Recommended, 2 min):**\n" +
+      "1. Go to aistudio.google.com/app/apikey\n" +
+      "2. Create a free API key (no credit card)\n" +
+      "3. Paste it in ⚙️ Settings → Gemini API Key\n\n" +
+      "**Option B — Offline AI (no key needed):**\n" +
+      "1. Go to ⚙️ Settings\n" +
+      "2. Choose SmolLM2 360M (works on any browser)\n" +
+      "3. Click 'Load Selected Model' and wait ~1 min\n\n" +
+      "Then come back and ask me anything!"
+    );
+    return;
+  }
+  const mc = MODEL_CONFIGS[selectedOfflineModel] || MODEL_CONFIGS['qwen-small'];
+  try {
+    if (mc.engine === 'webllm') {
+      await sendWebLLM(txt);
+    } else {
+      await sendTransformers(txt);
+    }
+  } catch(e) {
+    rmTyping();
+    addMsg('bro', `⚠️ Offline AI error: ${e.message}`, 'local');
+  }
+}
+
+// ── Transformers.js v3.8 inference
+async function sendTransformers(txt) {
+  var memCtx = Object.entries(memories).length
+    ? 'User context: ' + Object.entries(memories).map(function(kv){ return kv[0]+'='+kv[1]; }).join(', ') + '.' : '';
+
+  var recentHistory = msgs.slice(-5, -1).map(function(m) {
+    return {
+      role: (m.role === 'bro' || m.role === 'model') ? 'assistant' : 'user',
+      content: m.content.replace(/<[^>]+>/g, '').slice(0, 400)
+    };
+  });
+
+  var messages = [
+    { role: 'system', content: 'You are a helpful AI assistant. Answer clearly and concisely. ' + memCtx }
+  ].concat(recentHistory).concat([{ role: 'user', content: txt }]);
+
+  // Call with chat template — this is key for instruct models
+  var out = await offlinePipe(messages, {
+    max_new_tokens: 256,
+    do_sample: false,          // greedy decoding = more coherent for small models
+    return_full_text: false,   // only return new tokens, not the prompt
+  });
+
+  rmTyping();
+
+  // Debug: log raw output to console
+  console.log('[Bro offline] raw output:', JSON.stringify(out));
+
+  var reply = '';
+  try {
+    var first = out[0];
+    var gt = first.generated_text;
+
+    if (Array.isArray(gt)) {
+      // Chat format: [{role:'system',...},{role:'user',...},{role:'assistant', content:'...'}]
+      // Last item is the assistant reply
+      var last = gt[gt.length - 1];
+      reply = (last && last.content) ? last.content : '';
+    } else if (typeof gt === 'string') {
+      reply = gt;
+    } else if (first && typeof first === 'object' && first.text) {
+      reply = first.text;
+    } else {
+      reply = String(first || '');
+    }
+  } catch(parseErr) {
+    console.error('[Bro] output parse error:', parseErr, 'raw:', out);
+    reply = String(out && out[0] ? out[0] : '');
+  }
+
+  // Clean up special tokens that small models sometimes output
+  reply = reply
+    .replace(/<\|.*?\|>/g, '')   // remove <|endoftext|> etc
+    .replace(/^(assistant|Assistant|ASSISTANT)\s*:?\s*/,'')  // strip role prefix
+    .trim();
+
+  if (!reply || reply.length < 2) {
+    reply = "I'm having trouble generating a response. Try asking something simpler, or switch to online mode with a Gemini key.";
+  }
+
+  addMsg('bro', reply, 'local');
+}
+
+// ── WebLLM inference (Phi-3 Mini) — real chat quality
+async function sendWebLLM(txt) {
+  const memContext = Object.entries(memories).length
+    ? Object.entries(memories).map(([k,v])=>`${k}: ${v}`).join(', ') : '';
+  const sysMsg = `You are Bro, a smart helpful AI buddy. Be direct, concise, friendly. ${memContext ? 'User context: '+memContext : ''}`;
+
+  // Build chat history for context (last 6 turns)
+  const chatHistory = msgs.slice(-7, -1).map(m => ({
+    role: (m.role === 'bro' || m.role === 'model') ? 'assistant' : 'user',
+    content: m.content
+  }));
+
+  const messages = [
+    { role: 'system', content: sysMsg },
+    ...chatHistory,
+    { role: 'user',   content: txt }
+  ];
+
+  const reply_obj = await webllmEngine.chat.completions.create({
+    messages,
+    temperature: 0.8,
+    max_tokens: 512,
+    stream: false,
+  });
+
+  rmTyping();
+  const reply = reply_obj.choices[0]?.message?.content?.trim() || "Couldn't get a response.";
+  addMsg('bro', reply, 'local');
+}
+
+// ── ONLINE: Gemini API
+async function sendGemini(txt) {
+  const apiKey = localStorage.getItem(S.KEY);
+  if (!apiKey) {
+    rmTyping();
+    addMsg('bro', "No Gemini API key found. Either:\n1. Add your free key in ⚙️ Settings\n2. Or load the **Offline AI** in ⚙️ Settings → Load Offline AI Now");
+    return;
+  }
+  try {
+    const history = msgs.slice(-30).slice(0,-1).map(m=>({
+      role:(m.role==='bro'||m.role==='model')?'model':'user',
+      parts:[{text:m.content}]
+    }));
+    const body = {
+      system_instruction:{parts:[{text:systemPrompt()}]},
+      contents:[...history,{role:'user',parts:[{text:txt}]}],
+      generationConfig:{maxOutputTokens:1024,temperature:0.85}
+    };
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${cfg.model}:generateContent?key=${apiKey}`;
+    const res  = await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data = await res.json();
+    rmTyping();
+    if (!res.ok) {
+      const err = data?.error?.message || 'Unknown error';
+      addMsg('bro', `⚠️ Gemini error: ${err}\n\nTip: switch to Offline AI in ⚙️ Settings if you're offline.`);
+    } else {
+      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '(no reply)';
+      addMsg('bro', reply, 'gemini');
+      autoLearn(txt, reply);
+    }
+  } catch(e) {
+    rmTyping();
+    addMsg('bro', `⚠️ Network error: ${e.message}\n\nYou appear to be offline. Go to ⚙️ Settings → Load Offline AI to use Bro without internet!`);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  AUTO-LEARN (online only, lightweight)
+// ═══════════════════════════════════════════════════
+async function autoLearn(userMsg, broReply) {
+  const apiKey = localStorage.getItem(S.KEY);
+  if (!apiKey || shouldUseOffline()) return;
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview-06-17:generateContent?key=${apiKey}`;
+    const body = {
+      contents:[{role:'user',parts:[{text:`Extract long-lasting user facts from this exchange as JSON array [{"key":"...","value":"..."}]. Return [] if nothing important.\n\nUser: ${userMsg}\nBro: ${broReply}`}]}],
+      generationConfig:{maxOutputTokens:200}
+    };
+    const res  = await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data = await res.json();
+    let raw = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '[]';
+    raw = raw.replace(/```json|```/g,'').trim();
+    const items = JSON.parse(raw);
+    if (Array.isArray(items) && items.length) {
+      items.forEach(({key,value}) => { if(key&&value) memories[key]=value; });
+      localStorage.setItem(S.MEM, JSON.stringify(memories));
+      renderMems();
+    }
+  } catch(_) {}
+}
+
+// ═══════════════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════════════
+function switchTab(tab, btn) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+tab).classList.add('active');
   btn.classList.add('active');
-  if(tab==='chat') scrollBot();
+  if (tab==='chat') scrollBot();
 }
 
-function renderMsgs(){
+function updateModeBadge() {
+  const badge = document.getElementById('mode-badge');
+  const label = document.getElementById('mode-label');
+  const offlineBanner = document.getElementById('offline-banner');
+
+  if (!isOnline && !offlineReady) {
+    badge.className='offline';label.textContent='No Internet · No Local AI';
+    offlineBanner.classList.add('show'); offlineBanner.innerHTML='📴 <strong>No internet + no offline AI.</strong> Go to ⚙️ Settings → Load Offline AI to use Bro without internet.';
+  } else if (shouldUseOffline() && offlineReady) {
+    badge.className='ready';label.textContent='📴 Offline AI Ready';
+    offlineBanner.classList.add('show');
+  } else if (shouldUseOffline() && !offlineReady) {
+    badge.className='offline';label.textContent='Offline AI Not Loaded';
+    offlineBanner.classList.add('show'); offlineBanner.innerHTML='📴 <strong>Offline AI active</strong> — not loaded yet. Go to ⚙️ Settings → Load Offline AI Now.';
+  } else if (isOnline) {
+    badge.className='online';label.textContent='🌐 Online · Gemini';
+    offlineBanner.classList.remove('show');
+  }
+}
+
+function updateBanner() {
+  const k = localStorage.getItem(S.KEY) || '';
+  const needKey = !k.startsWith('AIza') && cfg.aiMode !== 'offline';
+  document.getElementById('setup-banner').classList.toggle('show', needKey && isOnline);
+}
+
+function renderMsgs() {
   document.getElementById('chat-messages').innerHTML='';
-  msgs.forEach(m=>addMsgDOM(m.role,m.content));
+  msgs.forEach(m=>addMsgDOM(m.role, m.content, m.engine));
   scrollBot();
 }
 
-function addMsg(role,content){
-  msgs.push({role,content});
+function addMsg(role, content, engine='') {
+  msgs.push({role,content,engine});
   if(msgs.length>120) msgs=msgs.slice(-120);
-  localStorage.setItem(S.MSGS,JSON.stringify(msgs));
-  addMsgDOM(role,content);scrollBot();
+  localStorage.setItem(S.MSGS, JSON.stringify(msgs));
+  addMsgDOM(role, content, engine); scrollBot();
 }
 
-function addMsgDOM(role,content){
-  const c=document.getElementById('chat-messages');
-  const isBro=role==='bro'||role==='model';
-  const d=document.createElement('div');
+function addMsgDOM(role, content, engine='') {
+  const c = document.getElementById('chat-messages');
+  const isBro = role==='bro'||role==='model';
+  const d = document.createElement('div');
   d.className=`msg ${isBro?'bro':'user'}`;
-  const now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  d.innerHTML=`<div class="av">${isBro?'🤖':'YOU'}</div><div class="bubble">${fmt(content)}</div><div class="msg-time">${now}</div>`;
+  const now = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  let engineTag = '';
+  if (isBro && engine === 'gemini') engineTag = `<div class="engine-tag gemini">☁️ Gemini</div>`;
+  if (isBro && engine === 'local')  engineTag = `<div class="engine-tag local">📴 Local AI</div>`;
+  d.innerHTML=`<div class="av">${isBro?'🤖':'YOU'}</div><div class="bubble">${engineTag}${fmt(content)}</div><div class="msg-time">${now}</div>`;
   c.appendChild(d);
 }
 
 function fmt(t){
-  let h=t.replace(/```(\w*)\n?([\s\S]*?)```/g,(_,lang,code)=>
-    `<span class="lang-tag">${lang||'code'}</span><pre><code>${esc(code.trim())}</code></pre>`);
+  let h=t.replace(/```(\w*)\n?([\s\S]*?)```/g,(_,lang,code)=>`<span class="lang-tag">${lang||'code'}</span><pre><code>${esc(code.trim())}</code></pre>`);
   h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
   h=h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
   h=h.replace(/\*(.+?)\*/g,'<em>$1</em>');
   h=h.replace(/\n/g,'<br>');
   return h;
 }
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function scrollBot(){const c=document.getElementById('chat-messages');requestAnimationFrame(()=>c.scrollTop=c.scrollHeight);}
+function showTyping(){const c=document.getElementById('chat-messages');const d=document.createElement('div');d.id='typing';d.className='msg bro';d.innerHTML=`<div class="av">🤖</div><div class="bubble"><div class="dots"><span></span><span></span><span></span></div></div>`;c.appendChild(d);scrollBot();}
+function rmTyping(){document.getElementById('typing')?.remove();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,115)+'px';updateSend();}
+function updateSend(){document.getElementById('send-btn').disabled=busy||!document.getElementById('chat-inp').value.trim();}
+function useHint(el){const inp=document.getElementById('chat-inp');inp.value=el.textContent.trim();autoResize(inp);inp.focus();}
 
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function scrollBot(){ const c=document.getElementById('chat-messages'); requestAnimationFrame(()=>c.scrollTop=c.scrollHeight); }
-
-function showTyping(){
-  const c=document.getElementById('chat-messages');
-  const d=document.createElement('div');
-  d.id='typing';d.className='msg bro';
-  d.innerHTML=`<div class="av">🤖</div><div class="bubble"><div class="dots"><span></span><span></span><span></span></div></div>`;
-  c.appendChild(d);scrollBot();
-}
-function rmTyping(){ document.getElementById('typing')?.remove(); }
-
-async function sendMsg(){
-  const inp=document.getElementById('chat-inp');
-  const txt=inp.value.trim();
-  if(!txt||busy) return;
-  const apiKey=localStorage.getItem(S.KEY);
-  if(!apiKey){alert('Add your free Gemini API key in ⚙️ Settings first!');return;}
-  inp.value='';autoResize(inp);
-  addMsg('user',txt);
-  document.getElementById('hints').style.display='none';
-  busy=true;updateSend();showTyping();
-  try{
-    const history=msgs.slice(-30).slice(0,-1).map(m=>({
-      role:(m.role==='bro'||m.role==='model')?'model':'user',
-      parts:[{text:m.content}]
-    }));
-    const body={
-      system_instruction:{parts:[{text:systemPrompt()}]},
-      contents:[...history,{role:'user',parts:[{text:txt}]}],
-      generationConfig:{maxOutputTokens:1024,temperature:0.85}
-    };
-    const model=cfg.model;
-    const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const data=await res.json();
-    rmTyping();
-    if(!res.ok){
-      const err=data?.error?.message||JSON.stringify(data?.error)||'Unknown error';
-      addMsg('bro',`⚠️ API Error: ${err}\n\nMost likely causes:\n- Wrong API key (check ⚙️ Settings)\n- Rate limit hit (wait 1 min)\n- Model name issue`);
-    }else{
-      const reply=data?.candidates?.[0]?.content?.parts?.[0]?.text||'(no reply)';
-      addMsg('bro',reply);autoLearn(txt,reply);
-    }
-  }catch(e){
-    rmTyping();
-    addMsg('bro',`⚠️ Network error: ${e.message}\n\nCheck your internet connection.`);
-  }
-  busy=false;updateSend();
-}
-
-function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
-function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,115)+'px'; updateSend(); }
-function updateSend(){ document.getElementById('send-btn').disabled=busy||!document.getElementById('chat-inp').value.trim(); }
-function useHint(el){ const inp=document.getElementById('chat-inp'); inp.value=el.textContent.trim(); autoResize(inp); inp.focus(); }
-
-async function autoLearn(userMsg,broReply){
-  const apiKey=localStorage.getItem(S.KEY);if(!apiKey)return;
-  try{
-    const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview-06-17:generateContent?key=${apiKey}`;
-    const body={contents:[{role:'user',parts:[{text:`From this exchange, extract important long-lasting facts about the user (name, goals, stack, habits, projects). Skip temporary/one-off info.
-Return ONLY a JSON array: [{"key":"user_name","value":"Rudra"}]
-If nothing, return: []
-
-User: ${userMsg}
-Bro: ${broReply}`}]}],generationConfig:{maxOutputTokens:200}};
-    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const data=await res.json();
-    let raw=data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim()||'[]';
-    raw=raw.replace(/```json|```/g,'').trim();
-    const items=JSON.parse(raw);
-    if(Array.isArray(items)&&items.length){
-      items.forEach(({key,value})=>{if(key&&value)memories[key]=value;});
-      localStorage.setItem(S.MEM,JSON.stringify(memories));renderMems();
-    }
-  }catch(_){}
-}
-
+// VOICE
 function toggleVoice(){
   if(isListening){rec?.stop();return;}
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){showVS('Voice not supported. Use Chrome.');return;}
   rec=new SR();rec.lang=cfg.lang||'en-IN';rec.interimResults=false;
-  rec.onstart=()=>{isListening=true;document.getElementById('vbtn').classList.add('on');showVS('🎤 Listening...');};
+  rec.onstart=()=>{isListening=true;document.getElementById('vbtn').classList.add('on');showVS('🎤 Listening…');};
   rec.onresult=e=>{const t=e.results[0][0].transcript;const i=document.getElementById('chat-inp');i.value+=(i.value?' ':'')+t;autoResize(i);};
   rec.onerror=e=>{showVS('Error: '+e.error);};
   rec.onend=()=>{isListening=false;document.getElementById('vbtn').classList.remove('on');showVS('');};
   rec.start();
 }
 function showVS(m){const e=document.getElementById('voice-st');e.textContent=m;e.classList.toggle('show',!!m);}
-function speakLast(){
-  const last=[...msgs].reverse().find(m=>m.role==='bro'||m.role==='model');
-  if(!last||!window.speechSynthesis)return;
-  window.speechSynthesis.cancel();
-  const clean=last.content.replace(/```[\s\S]*?```/g,'code block').replace(/[*#`>_~]/g,'').trim();
-  const u=new SpeechSynthesisUtterance(clean);u.lang=cfg.lang||'en-IN';u.rate=1.0;window.speechSynthesis.speak(u);
-}
+function speakLast(){const last=[...msgs].reverse().find(m=>m.role==='bro'||m.role==='model');if(!last||!window.speechSynthesis)return;window.speechSynthesis.cancel();const clean=last.content.replace(/```[\s\S]*?```/g,'code block').replace(/[*#`>_~]/g,'').trim();const u=new SpeechSynthesisUtterance(clean);u.lang=cfg.lang||'en-IN';u.rate=1.0;window.speechSynthesis.speak(u);}
 
+// TASKS
 function saveTasks(){localStorage.setItem(S.TASKS,JSON.stringify(tasks));}
-function addTask(){
-  const t=document.getElementById('tinp').value.trim();if(!t)return;
-  tasks.push({id:Date.now(),title:t,priority:document.getElementById('tpri').value,due:document.getElementById('tdue').value||null,done:false,created:new Date().toISOString()});
-  saveTasks();document.getElementById('tinp').value='';document.getElementById('tdue').value='';renderTasks();
-}
+function addTask(){const t=document.getElementById('tinp').value.trim();if(!t)return;tasks.push({id:Date.now(),title:t,priority:document.getElementById('tpri').value,due:document.getElementById('tdue').value||null,done:false,created:new Date().toISOString()});saveTasks();document.getElementById('tinp').value='';document.getElementById('tdue').value='';renderTasks();}
 function toggleTask(id){const t=tasks.find(t=>t.id===id);if(t){t.done=!t.done;saveTasks();renderTasks();}}
 function delTask(id){tasks=tasks.filter(t=>t.id!==id);saveTasks();renderTasks();}
 function setFilter(f,btn){taskFilter=f;document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTasks();}
@@ -968,78 +1277,35 @@ function renderTasks(){
   if(taskFilter==='pending') list=tasks.filter(t=>!t.done);
   if(taskFilter==='done')    list=tasks.filter(t=>t.done);
   if(!list.length){el.innerHTML=`<div class="empty">${taskFilter==='done'?'✓ No completed tasks yet.':'🎉 No tasks! Add one above.'}</div>`;return;}
-  const PL={high:'HIGH',normal:'NORMAL',low:'LOW'};
   const PC={high:'ph-cls',normal:'pn-cls',low:'pl-cls'};
   const PR={high:'🔴',normal:'🟡',low:'⚪'};
   el.innerHTML=[...list].sort((a,b)=>({high:0,normal:1,low:2}[a.priority]||1)-({high:0,normal:1,low:2}[b.priority]||1))
-    .map(t=>`<div class="ti ${t.done?'dn':''}">
-      <button class="tc" onclick="toggleTask(${t.id})">${t.done?'✓':''}</button>
-      <div class="tb">
-        <div class="tt">${esc(t.title)}</div>
-        <div class="tm"><span class="tp ${PC[t.priority]}">${PR[t.priority]} ${PL[t.priority]}</span>${t.due?`<span class="td">📅 ${t.due}</span>`:''}</div>
-      </div>
-      <button class="tdel" onclick="delTask(${t.id})">✕</button>
-    </div>`).join('');
+    .map(t=>`<div class="ti ${t.done?'dn':''}"><button class="tc" onclick="toggleTask(${t.id})">${t.done?'✓':''}</button><div class="tb"><div class="tt">${esc(t.title)}</div><div class="tm"><span class="tp ${PC[t.priority]}">${PR[t.priority]} ${t.priority.toUpperCase()}</span>${t.due?`<span class="td">📅 ${t.due}</span>`:''}</div></div><button class="tdel" onclick="delTask(${t.id})">✕</button></div>`).join('');
 }
 
+// MEMORY
 function saveMems(){localStorage.setItem(S.MEM,JSON.stringify(memories));}
-function addMem(){
-  const k=document.getElementById('mkey').value.trim().replace(/\s+/g,'_');
-  const v=document.getElementById('mval').value.trim();
-  if(!k||!v)return;
-  memories[k]=v;saveMems();document.getElementById('mkey').value='';document.getElementById('mval').value='';renderMems();
-}
+function addMem(){const k=document.getElementById('mkey').value.trim().replace(/\s+/g,'_');const v=document.getElementById('mval').value.trim();if(!k||!v)return;memories[k]=v;saveMems();document.getElementById('mkey').value='';document.getElementById('mval').value='';renderMems();}
 function delMem(k){delete memories[k];saveMems();renderMems();}
 function fillKey(el){document.getElementById('mkey').value=el.textContent;document.getElementById('mval').focus();}
 function renderMems(){
   const el=document.getElementById('mem-list');
   const e=Object.entries(memories);
   if(!e.length){el.innerHTML=`<div class="empty">No memories yet.\nChat with Bro and he'll learn about you 🤖</div>`;return;}
-  el.innerHTML=e.map(([k,v])=>`<div class="mi">
-    <span class="mk" onclick="fillKey(this)">${esc(k)}</span>
-    <span class="mv" title="${esc(v)}">${esc(v)}</span>
-    <button class="mdel" onclick="delMem('${esc(k)}')">✕</button>
-  </div>`).join('');
+  el.innerHTML=e.map(([k,v])=>`<div class="mi"><span class="mk" onclick="fillKey(this)">${esc(k)}</span><span class="mv" title="${esc(v)}">${esc(v)}</span><button class="mdel" onclick="delMem('${esc(k)}')">✕</button></div>`).join('');
 }
 
-function saveKey(){const k=document.getElementById('key-inp').value.trim();localStorage.setItem(S.KEY,k);updateKeyUI(k);updateBanner();}
-function updateKeyUI(k){
-  const dot=document.getElementById('kdot'),txt=document.getElementById('ktext');
-  if(k&&k.startsWith('AIza')){dot.className='dot ok';txt.textContent='Key saved ✓';txt.style.color='var(--green)';}
-  else if(k){dot.className='dot err';txt.textContent='Looks wrong (should start with AIza)';txt.style.color='var(--red)';}
-  else{dot.className='dot';txt.textContent='No key saved';txt.style.color='var(--text2)';}
-}
-function updateBanner(){
-  const k=localStorage.getItem(S.KEY)||'';
-  document.getElementById('setup-banner').classList.toggle('show',!k||!k.startsWith('AIza'));
-}
+// SETTINGS
+function saveKey(){const k=document.getElementById('key-inp').value.trim();localStorage.setItem(S.KEY,k);updateKeyUI(k);updateBanner();updateModeBadge();}
+function updateKeyUI(k){const dot=document.getElementById('kdot'),txt=document.getElementById('ktext');if(k&&k.startsWith('AIza')){dot.className='dot ok';txt.textContent='Key saved ✓';txt.style.color='var(--green)';}else if(k){dot.className='dot err';txt.textContent='Looks wrong (should start with AIza)';txt.style.color='var(--red)';}else{dot.className='dot';txt.textContent='No key saved';txt.style.color='var(--text2)';}}
 function toggleVis(){const i=document.getElementById('key-inp');i.type=i.type==='password'?'text':'password';}
 function saveSetting(key,val){cfg[key]=val;localStorage.setItem(S.CFG,JSON.stringify(cfg));}
 
-const LANGS=[
-  {c:'en-IN',l:'🇮🇳 English (India)'},{c:'hi-IN',l:'🇮🇳 Hindi'},
-  {c:'en-US',l:'🇺🇸 English (US)'},{c:'en-GB',l:'🇬🇧 English (UK)'},
-  {c:'ta-IN',l:'🇮🇳 Tamil'},{c:'te-IN',l:'🇮🇳 Telugu'},
-  {c:'mr-IN',l:'🇮🇳 Marathi'},{c:'bn-IN',l:'🇮🇳 Bengali'},
-];
-function buildLangGrid(){
-  document.getElementById('lang-grid').innerHTML=LANGS.map(l=>
-    `<button class="lo ${cfg.lang===l.c?'sel':''}" onclick="selLang('${l.c}',this)">${l.l}</button>`
-  ).join('');
-}
+const LANGS=[{c:'en-IN',l:'🇮🇳 English (India)'},{c:'hi-IN',l:'🇮🇳 Hindi'},{c:'en-US',l:'🇺🇸 English (US)'},{c:'en-GB',l:'🇬🇧 English (UK)'},{c:'ta-IN',l:'🇮🇳 Tamil'},{c:'te-IN',l:'🇮🇳 Telugu'},{c:'mr-IN',l:'🇮🇳 Marathi'},{c:'bn-IN',l:'🇮🇳 Bengali'}];
+function buildLangGrid(){document.getElementById('lang-grid').innerHTML=LANGS.map(l=>`<button class="lo ${cfg.lang===l.c?'sel':''}" onclick="selLang('${l.c}',this)">${l.l}</button>`).join('');}
 function selLang(c,el){cfg.lang=c;saveSetting('lang',c);document.querySelectorAll('.lo').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');}
-
-function clearChat(){
-  if(!confirm('Clear all chat history?'))return;
-  msgs=[];localStorage.removeItem(S.MSGS);renderMsgs();
-  addMsgDOM('bro',"Fresh start! What are we working on? 🤖");
-}
-function resetAll(){
-  if(!confirm('Reset EVERYTHING? Chat, memories, and tasks will be deleted.'))return;
-  [S.MSGS,S.MEM,S.TASKS].forEach(k=>localStorage.removeItem(k));
-  msgs={};memories={};tasks=[];renderMsgs();renderMems();renderTasks();
-  addMsgDOM('bro',"All cleared! Starting fresh 🤖");
-}
+function clearChat(){if(!confirm('Clear all chat history?'))return;msgs=[];localStorage.removeItem(S.MSGS);renderMsgs();addMsgDOM('bro',"Fresh start! What are we working on? 🤖");}
+function resetAll(){if(!confirm('Reset EVERYTHING?'))return;[S.MSGS,S.MEM,S.TASKS].forEach(k=>localStorage.removeItem(k));msgs=[];memories={};tasks=[];renderMsgs();renderMems();renderTasks();addMsgDOM('bro',"All cleared! Starting fresh 🤖");}
 
 init();
 </script>

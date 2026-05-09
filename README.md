@@ -1,30 +1,33 @@
 # 🤖 Bro — Free AI Buddy
 
-> A smart, single-file AI chat app powered by Google Gemini. No server. No backend. No subscription. Just drop the HTML file anywhere and go.
+> A smart, single-file AI chat app. Works **online** with Google Gemini and **offline** with a real AI model running directly in your browser. No server. No backend. No subscription. Ever.
 
-<img width="1280" height="640" alt="image" src="https://github.com/user-attachments/assets/4790758d-fa13-47dc-a667-2175d2b4195f" />
-
+![Bro Banner](./assets/banner.svg)
 
 ---
 
 ## ✨ What is Bro?
 
-**Bro** is a 100% free, single-file AI chat application that runs entirely in your browser. It uses Google's **Gemini API** (free tier — no credit card required) and stores everything locally — your chat history, memory, and tasks never leave your device.
+**Bro** is a 100% free, single-file AI chat application. It supports two AI engines:
 
-Built with love by one person. No VC funding. No paywalls
-One more feauture added:- Can use Multiple Models even (Offline + Online)
-Using Transformer.ai 
+- **Online mode** — uses Google Gemini API (free tier, no credit card)
+- **Offline mode** — runs a real AI model inside your browser using Transformers.js / WebLLM. No internet needed after first download.
+
+Everything is stored locally — your chat history, memory, and tasks never leave your device.
 
 ---
 
 ## 🚀 Live Demo
 
-https://amazing-dolphin-157033.netlify.app/
+Open `index.html` in Chrome. That's it.
 
-Or host it instantly:
-- **GitHub Pages** — push this repo and enable Pages → done
-- **Netlify Drop** — drag the folder to [netlify.com/drop](https://netlify.com/drop)
-- **Vercel** — `vercel --prod` in this folder
+**Or host it for free:**
+
+| Platform | How |
+|---|---|
+| GitHub Pages | Push repo → Settings → Pages → Source: GitHub Actions |
+| Netlify Drop | Drag folder to [netlify.com/drop](https://app.netlify.com/drop) |
+| Vercel | `vercel --prod` in this folder |
 
 ---
 
@@ -32,30 +35,40 @@ Or host it instantly:
 
 | Feature | Details |
 |---|---|
-| 💬 **AI Chat** | Powered by Gemini 2.5 Flash — fast, smart, free |
-| 🧠 **Memory** | Bro learns from your chats and remembers you |
+| 💬 **AI Chat** | Gemini online OR local model offline |
+| 📴 **Offline AI** | Real AI in browser — 3 model options |
+| 🧠 **Memory** | Bro learns from chats and remembers you |
 | ✅ **Tasks** | Priority-sorted to-do list with due dates |
 | 🎤 **Voice Input** | Speak your messages (Chrome) |
 | 🔊 **Text-to-Speech** | Bro reads replies aloud |
 | 🌍 **Multilingual Voice** | Hindi, Tamil, Telugu, Marathi, Bengali + more |
-| 📴 **Offline-first** | All data in localStorage — works without internet once loaded |
-| 🔒 **Private** | Your API key never touches any server except Google's |
-| 📱 **Mobile Ready** | Responsive, works as a PWA |
+| 🔒 **Private** | All data stays in your browser |
+| 📱 **Mobile Ready** | Fully responsive |
 
 ---
 
-## 🔑 Getting Your Free API Key
+## 🧠 Offline AI Models
+
+Choose your offline model in ⚙️ Settings:
+
+| Model | Size | Device | Quality | Best for |
+|---|---|---|---|---|
+| 🟢 SmolLM2 360M | ~220MB | WASM (any browser) | Basic | Quick facts, simple chat |
+| 🟡 Qwen2.5 0.5B | ~400MB | WebGPU (Chrome+GPU) | Good | Reasoning, longer answers |
+| 🔴 Phi-3 Mini | ~2.4GB | WebLLM (Chrome+GPU) | Excellent | Near GPT-3.5 quality |
+
+> **First time only:** models download and cache in your browser. After that, they work forever with zero internet.
+
+---
+
+## 🔑 Getting Your Free Gemini API Key
 
 1. Go to [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
-2. Sign in with your Google account
-3. Click **"Create API key"**
-4. Copy the key (starts with `AIzaSy...`)
-5. Open Bro → **⚙️ Settings** → paste the key
+2. Sign in with Google
+3. Click **"Create API key"** → copy it
+4. Open Bro → ⚙️ Settings → paste the key
 
-**Free tier limits:**
-- `gemini-2.5-flash` → 250 requests/day
-- `gemini-2.5-flash-lite` → 1,000 requests/day
-- `gemini-2.5-pro` → 100 requests/day
+**Free limits:** Gemini Flash: 250 req/day · Flash-Lite: 1,000/day · Pro: 100/day
 
 ---
 
@@ -63,13 +76,20 @@ Or host it instantly:
 
 ```
 bro/
-├── index.html          ← The entire app (single file, self-contained)
-├── README.md           ← This file
-├── LICENSE             ← MIT License
-├── .gitignore          ← Standard web .gitignore
+├── index.html              ← The entire app (self-contained, ~66KB)
+├── README.md               ← This file
+├── LICENSE                 ← MIT License
+├── CHANGELOG.md            ← Version history
+├── CONTRIBUTING.md         ← How to contribute
+├── .gitignore              ← Standard web gitignore
 └── assets/
-    ├── banner.png      ← Social preview image
-    └── screenshot.png  ← App screenshot
+    └── banner.svg          ← GitHub social preview image
+└── .github/
+    ├── workflows/
+    │   └── deploy.yml      ← Auto-deploy to GitHub Pages
+    └── ISSUE_TEMPLATE/
+        ├── bug_report.md
+        └── feature_request.md
 ```
 
 ---
@@ -78,96 +98,75 @@ bro/
 
 | Layer | Tech |
 |---|---|
-| Frontend | Vanilla HTML, CSS, JavaScript |
-| AI | Google Gemini API (REST) |
+| Frontend | Vanilla HTML, CSS, JavaScript (ES Modules) |
+| Online AI | Google Gemini API (REST) |
+| Offline AI (WASM) | [@huggingface/transformers](https://github.com/huggingface/transformers.js) v3.8 |
+| Offline AI (GPU) | [@mlc-ai/web-llm](https://github.com/mlc-ai/web-llm) |
 | Storage | Browser localStorage |
 | Fonts | Barlow Condensed + Barlow (Google Fonts) |
-| Voice | Web Speech API (SpeechRecognition + SpeechSynthesis) |
-| Hosting | Any static host |
+| Voice | Web Speech API |
 
-Zero dependencies. Zero build step. Zero backend.
+Zero dependencies to install. Zero build step. Zero backend.
 
 ---
 
-## 🎨 Design
+## 🎨 Design System
 
-Bro's UI is inspired by clean corporate design systems — white backgrounds, deep navy, and a sharp lime green accent. The floating pill navbar, condensed ALL-CAPS headings, and horizontal-rule section labels give it a polished, professional feel that's unlike typical "AI chatbot" aesthetics.
+Inspired by clean corporate design systems — white background, deep navy `#0d2137`, lime green `#8dc63f`.
 
 - **Font:** Barlow Condensed 900 (headers) + Barlow 400/600 (body)
-- **Colors:** `#f4f5f7` bg · `#0d2137` navy · `#8dc63f` lime
-- **Layout:** Floating pill nav · accordion rows · pill CTAs
+- **Layout:** Floating pill navbar · accordion rows · pill CTAs
+- **Mode badge:** Live indicator showing Online/Offline AI status
 
 ---
 
 ## 🧠 How Memory Works
 
-Bro automatically extracts facts from your conversations using a secondary Gemini call:
+Bro automatically extracts facts from your chats using a secondary Gemini call:
 
 ```
-User: "I'm studying DSA for my IGDTUW exams"
+You: "I'm studying DSA for my IGDTUW exams next week"
 → Bro saves: { college: "IGDTUW", study_subject: "DSA" }
 ```
 
-These facts are silently injected into every future conversation so Bro always knows who you are. You can view, add, or delete memories from the **🧠 Memory** tab.
+These facts inject silently into every future conversation. View, edit or delete them in the 🧠 Memory tab.
 
 ---
 
-## 🤖 Bro's Personality
+## ⚙️ localStorage Keys
 
-Bro is configured with a system prompt that makes him:
-- Talk like a **smart friend** — direct, honest, occasionally funny
-- Keep replies **short by default** (long answers only if you ask)
-- **Never** say "Certainly!", "Absolutely!", "Great question!" (ugh)
-- Acknowledge your **stress** before diving into solutions
-- Call out bad ideas: *"bro that's a bad idea because..."*
-
----
-
-## ⚙️ Configuration
-
-All config is stored in `localStorage`. Keys:
-
-| Key | Description |
+| Key | Contents |
 |---|---|
-| `bro_gkey` | Your Gemini API key |
+| `bro_gkey` | Gemini API key |
 | `bro_msgs` | Chat history (last 120 messages) |
 | `bro_mem` | Memory key-value store |
-| `bro_tasks` | Task list (JSON array) |
-| `bro_cfg` | Settings (model, language) |
-
-To reset everything: **⚙️ Settings → Reset Everything**
+| `bro_tasks` | Task list |
+| `bro_cfg` | Settings (model, language, AI mode) |
 
 ---
 
-## 🚢 Deploying to GitHub Pages
+## 🚢 Deploy to GitHub Pages (3 commands)
 
 ```bash
-# 1. Fork or clone this repo
 git clone https://github.com/YOUR_USERNAME/bro.git
 cd bro
-
-# 2. Push to GitHub
-git add .
-git commit -m "🤖 Deploy Bro"
-git push origin main
-
-# 3. Enable GitHub Pages
-# Go to repo Settings → Pages → Source: main branch → / (root)
-# Your app will be live at: https://YOUR_USERNAME.github.io/bro
+git add . && git commit -m "🤖 Deploy Bro" && git push origin main
 ```
+
+Then: **Repo Settings → Pages → Source: GitHub Actions**
+
+Your site goes live at `https://YOUR_USERNAME.github.io/bro` ⚡
 
 ---
 
 ## 📜 License
 
-MIT — do whatever you want with it. If you build something cool, star the repo ⭐
+MIT — do whatever you want with it.
 
 ---
 
-## 🙏 Credits
-Thoughts of me(RUDRA).
-Built with [Google Gemini API](https://ai.google.dev/) — free tier, no credit card required.
-
----
-
-<p align="center">Made with ☕ and zero budget &nbsp;·&nbsp; <strong>Bro</strong> is open source forever</p>
+<p align="center">
+  Made with ☕ · Single file · Zero backend · Forever free
+  <br><br>
+  <strong>⭐ Star this repo if Bro helped you!</strong>
+</p>
