@@ -1,77 +1,155 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
-  <!-- Background -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
   <defs>
     <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#f5f5f5;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#0d2137;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a3a52;stop-opacity:1" />
     </linearGradient>
+    
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
   </defs>
   
-  <rect width="1200" height="400" fill="url(#bgGradient)"/>
+  <!-- Dark navy gradient background -->
+  <rect width="1280" height="640" fill="url(#bgGradient)"/>
   
-  <!-- Accent bars -->
-  <rect x="0" y="0" width="1200" height="8" fill="#8dc63f"/>
-  <rect x="0" y="392" width="1200" height="8" fill="#0d2137"/>
+  <!-- Subtle grid pattern overlay -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(141, 198, 63, 0.05)" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="640" fill="url(#grid)"/>
   
-  <!-- Left circle accent -->
-  <circle cx="100" cy="100" r="80" fill="#8dc63f" opacity="0.1"/>
-  
-  <!-- Right circle accent -->
-  <circle cx="1100" cy="300" r="120" fill="#0d2137" opacity="0.05"/>
-  
-  <!-- Robot/AI icon (simple geometric design) -->
-  <g transform="translate(200, 100)">
-    <!-- Head -->
-    <rect x="0" y="0" width="120" height="130" rx="15" fill="none" stroke="#0d2137" stroke-width="4"/>
-    
-    <!-- Eyes -->
-    <circle cx="30" cy="40" r="12" fill="#8dc63f"/>
-    <circle cx="90" cy="40" r="12" fill="#8dc63f"/>
-    
-    <!-- Smile -->
-    <path d="M 35 80 Q 60 95 85 80" stroke="#0d2137" stroke-width="4" fill="none" stroke-linecap="round"/>
-    
-    <!-- Antenna -->
-    <line x1="60" y1="0" x2="60" y2="-30" stroke="#8dc63f" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="60" cy="-35" r="6" fill="#8dc63f"/>
-  </g>
-  
-  <!-- Main Text -->
-  <text x="400" y="140" font-family="'Barlow Condensed', Arial, sans-serif" font-size="72" font-weight="900" fill="#0d2137" letter-spacing="-2">
-    🤖 Bro
-  </text>
-  
-  <!-- Subtitle -->
-  <text x="400" y="200" font-family="'Barlow', Arial, sans-serif" font-size="28" font-weight="600" fill="#0d2137" letter-spacing="0.5">
-    Free AI Buddy
-  </text>
-  
-  <!-- Tagline -->
-  <text x="400" y="250" font-family="'Barlow', Arial, sans-serif" font-size="18" font-weight="400" fill="#555555">
-    Online with Gemini • Offline in Browser • Forever Free
-  </text>
-  
-  <!-- Feature pills -->
+  <!-- Left section: Logo and text -->
   <g>
-    <!-- Pill 1 -->
-    <rect x="400" y="290" width="160" height="40" rx="20" fill="none" stroke="#8dc63f" stroke-width="2"/>
-    <text x="490" y="318" font-family="'Barlow', Arial, sans-serif" font-size="14" font-weight="600" fill="#8dc63f" text-anchor="middle">
-      💬 AI Chat
+    <!-- Green rounded square icon -->
+    <rect x="80" y="220" width="160" height="160" rx="30" fill="#8dc63f"/>
+    <rect x="115" y="255" width="90" height="90" rx="15" fill="#0d2137"/>
+    <rect x="130" y="270" width="20" height="60" fill="#8dc63f" rx="3"/>
+    <rect x="160" y="280" width="10" height="40" fill="#8dc63f" rx="2"/>
+    
+    <!-- Main heading "BRO" -->
+    <text x="80" y="420" font-family="'Barlow Condensed', Arial, sans-serif" font-size="140" font-weight="900" fill="white" letter-spacing="-4">
+      BRO
     </text>
     
-    <!-- Pill 2 -->
-    <rect x="590" y="290" width="160" height="40" rx="20" fill="none" stroke="#8dc63f" stroke-width="2"/>
-    <text x="670" y="318" font-family="'Barlow', Arial, sans-serif" font-size="14" font-weight="600" fill="#8dc63f" text-anchor="middle">
-      🔒 Private
+    <!-- Green square accent after BRO -->
+    <rect x="380" y="360" width="40" height="40" fill="#8dc63f"/>
+    
+    <!-- Tagline line 1 -->
+    <text x="80" y="470" font-family="'Barlow', Arial, sans-serif" font-size="20" font-weight="400" fill="#7a9fb8" letter-spacing="2">
+      FREE AI BUDDY · POWERED BY GEMINI · SINGLE FILE ·
     </text>
     
-    <!-- Pill 3 -->
-    <rect x="780" y="290" width="160" height="40" rx="20" fill="none" stroke="#8dc63f" stroke-width="2"/>
-    <text x="860" y="318" font-family="'Barlow', Arial, sans-serif" font-size="14" font-weight="600" fill="#8dc63f" text-anchor="middle">
-      📴 Offline
+    <!-- Feature pills row -->
+    <g>
+      <!-- CHAT pill -->
+      <rect x="80" y="530" width="150" height="50" rx="25" fill="none" stroke="#8dc63f" stroke-width="2"/>
+      <text x="155" y="565" font-family="'Barlow', Arial, sans-serif" font-size="16" font-weight="700" fill="#8dc63f" text-anchor="middle">
+        💬 CHAT
+      </text>
+      
+      <!-- MEMORY pill -->
+      <rect x="260" y="530" width="180" height="50" rx="25" fill="none" stroke="#8dc63f" stroke-width="2"/>
+      <text x="350" y="565" font-family="'Barlow', Arial, sans-serif" font-size="16" font-weight="700" fill="#8dc63f" text-anchor="middle">
+        🧠 MEMORY
+      </text>
+      
+      <!-- TASKS pill -->
+      <rect x="470" y="530" width="160" height="50" rx="25" fill="none" stroke="#8dc63f" stroke-width="2"/>
+      <text x="550" y="565" font-family="'Barlow', Arial, sans-serif" font-size="16" font-weight="700" fill="#8dc63f" text-anchor="middle">
+        ✅ TASKS
+      </text>
+      
+      <!-- VOICE pill -->
+      <rect x="660" y="530" width="160" height="50" rx="25" fill="none" stroke="#8dc63f" stroke-width="2"/>
+      <text x="740" y="565" font-family="'Barlow', Arial, sans-serif" font-size="16" font-weight="700" fill="#8dc63f" text-anchor="middle">
+        🎤 VOICE
+      </text>
+    </g>
+    
+    <!-- Bottom tagline -->
+    <text x="80" y="610" font-family="'Barlow', Arial, sans-serif" font-size="16" font-weight="400" fill="#7a9fb8" letter-spacing="1">
+      100% FREE · NO CREDIT CARD · NO BACKEND · MIT LICENSE
     </text>
   </g>
   
-  <!-- Accent line -->
-  <line x1="400" y1="360" x2="1000" y2="360" stroke="#8dc63f" stroke-width="3" stroke-linecap="round"/>
+  <!-- Right section: Chat UI mockup -->
+  <g filter="url(#shadow)">
+    <!-- White card background -->
+    <rect x="840" y="100" width="380" height="480" rx="30" fill="white"/>
+    
+    <!-- Header bar -->
+    <rect x="840" y="100" width="380" height="70" rx="30" fill="white"/>
+    <rect x="860" y="120" width="40" height="40" rx="8" fill="#0d2137"/>
+    <text x="920" y="150" font-family="'Barlow', Arial, sans-serif" font-size="18" font-weight="900" fill="#0d2137">
+      BRO.
+    </text>
+    
+    <!-- CHAT tab (active - green) -->
+    <rect x="1020" y="120" width="80" height="40" rx="8" fill="#8dc63f"/>
+    <text x="1060" y="150" font-family="'Barlow', Arial, sans-serif" font-size="14" font-weight="700" fill="#0d2137" text-anchor="middle">
+      💬 CHAT
+    </text>
+    
+    <!-- TASKS tab (inactive) -->
+    <text x="1130" y="150" font-family="'Barlow', Arial, sans-serif" font-size="14" font-weight="600" fill="#9ca3af" text-anchor="middle">
+      ✅ TASKS
+    </text>
+    
+    <!-- Chat messages area -->
+    <!-- Bro message 1 -->
+    <circle cx="870" cy="200" r="18" fill="#0d2137"/>
+    <text x="900" y="185" font-family="'Barlow', Arial, sans-serif" font-size="13" font-weight="600" fill="#0d2137">
+      Hey! Bro here 🤖
+    </text>
+    <text x="900" y="210" font-family="'Barlow', Arial, sans-serif" font-size="12" font-weight="400" fill="#9ca3af">
+      What are we building today?
+    </text>
+    
+    <!-- User message -->
+    <rect x="920" y="260" width="260" height="45" rx="15" fill="#0d2137"/>
+    <text x="1020" y="285" font-family="'Barlow', Arial, sans-serif" font-size="13" font-weight="500" fill="white" text-anchor="middle">
+      help me plan my day
+    </text>
+    <circle cx="1180" cy="282" r="16" fill="#8dc63f"/>
+    <text x="1180" y="288" font-family="'Barlow', Arial, sans-serif" font-size="12" font-weight="700" fill="#0d2137" text-anchor="middle">
+      YOU
+    </text>
+    
+    <!-- Bro response message 2 -->
+    <circle cx="870" cy="345" r="18" fill="#0d2137"/>
+    <text x="900" y="330" font-family="'Barlow', Arial, sans-serif" font-size="13" font-weight="600" fill="#0d2137">
+      Let's go bro! Here's a solid plan:
+    </text>
+    
+    <!-- Bullet points with green squares -->
+    <rect x="900" y="350" width="8" height="8" fill="#8dc63f"/>
+    <text x="920" y="358" font-family="'Barlow', Arial, sans-serif" font-size="12" font-weight="500" fill="#0d2137">
+      Morning: DSA practice (90 min)
+    </text>
+    
+    <rect x="900" y="375" width="8" height="8" fill="#8dc63f"/>
+    <text x="920" y="383" font-family="'Barlow', Arial, sans-serif" font-size="12" font-weight="500" fill="#0d2137">
+      Afternoon: GramAI backend
+    </text>
+    
+    <rect x="900" y="400" width="8" height="8" fill="#8dc63f"/>
+    <text x="920" y="408" font-family="'Barlow', Arial, sans-serif" font-size="12" font-weight="500" fill="#0d2137">
+      Evening: review + rest 🌙
+    </text>
+    
+    <!-- Input area -->
+    <rect x="860" y="455" width="320" height="50" rx="15" fill="#f5f5f5" stroke="#8dc63f" stroke-width="2"/>
+    <text x="880" y="485" font-family="'Barlow', Arial, sans-serif" font-size="14" font-weight="400" fill="#9ca3af">
+      Ask Bro anything...
+    </text>
+    
+    <!-- Send button (green) -->
+    <circle cx="1155" cy="480" r="18" fill="#8dc63f"/>
+    <text x="1158" y="487" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#0d2137" text-anchor="middle">
+      ▶
+    </text>
+  </g>
 </svg>
